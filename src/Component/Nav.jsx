@@ -21,13 +21,13 @@ export default function Nav() {
         <nav>
           <ul className="space-y-4">
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              🏠 Home
+              Home
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              📷 List Barang dan Props
+              List Barang dan Props
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              ⚙️ Pengajuan Barang
+              Pengajuan Barang
             </li>
           </ul>
         </nav>

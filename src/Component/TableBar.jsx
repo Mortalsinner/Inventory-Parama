@@ -6,7 +6,7 @@ const TableBar = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
-  const totalItems = 20;
+  const totalItems = 50;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const filteredItems = [...Array(totalItems)].map((_, index) => ({
