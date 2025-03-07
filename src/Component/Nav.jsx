@@ -17,17 +17,17 @@ export default function Nav() {
         >
           ✕
         </button>
-        <h2 className="text-2xl font-bold mb-6">Sidebar</h2>
+        <h2 className="text-2xl font-bold mb-6">Menu</h2>
         <nav>
           <ul className="space-y-4">
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
               🏠 Home
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              👤 Profile
+              📷 List Barang dan Props
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              ⚙️ Settings
+              ⚙️ Pengajuan Barang
             </li>
           </ul>
         </nav>
