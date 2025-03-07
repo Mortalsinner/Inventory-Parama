@@ -4,11 +4,11 @@ export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       {/* Sidebar - Fixed on Desktop, Toggle on Mobile */}
       <div
         className={`bg-gray-900 text-white w-64 p-5 h-full fixed top-0 left-0 transform lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-64" 
+          isOpen ? "translate-x-0" : "-translate-x-64"
         } transition-transform duration-300 ease-in-out lg:relative lg:flex-shrink-0`}
       >
         <button
@@ -36,7 +36,7 @@ export default function Nav() {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-0 z-10 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
@@ -44,10 +44,10 @@ export default function Nav() {
       {/* Toggle Button - Only Visible on Mobile */}
       <button
         onClick={() => setIsOpen(true)}
-        className="m-4 p-2 bg-ghost text-ghost rounded-md focus:outline-none z-20 lg:hidden"
+        className="m-4 p-2 bg-gray-900 text-white rounded-md focus:outline-none z-20 lg:hidden"
       >
         ☰
       </button>
-    </div>
+      </div>
   );
 }

@@ -6,12 +6,12 @@ import TableBar from'./Component/TableBar.jsx';
 
 function App() {
   return (
-    <>
-    <Sidenav></Sidenav>
-    {/* <TableBar></TableBar>
-     */}
-    
-    </> 
+    <div className="flex h-screen">
+      <Sidenav />
+      <div className="flex-1 p-4 overflow-auto">
+        <TableBar />
+      </div>
+    </div>
   );
 }
 
