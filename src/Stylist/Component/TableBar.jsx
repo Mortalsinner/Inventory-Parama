@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 const TableBar = () => {
 
@@ -33,8 +34,9 @@ const TableBar = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
       />
+      <Link to="/AddBarang">
       <button className="btn btn-accent mb-4 text-white"> + Add Barang</button>
-
+      </Link>
 
       {/* Main Content */}
       <table className="w-full border-collapse border border-gray-300 text-black">

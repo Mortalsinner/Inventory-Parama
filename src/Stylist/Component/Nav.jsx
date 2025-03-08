@@ -22,7 +22,7 @@ export default function Nav() {
         <nav>
           <ul className="space-y-4">
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-            <Link to="/"> Home
+            <Link to="/"> 📷 List Barang
             </Link>
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
@@ -30,9 +30,9 @@ export default function Nav() {
             <Link to="/distribusi">📦 Distribusi</Link>
             
             </li>
-            <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
+            {/* <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
               Pengajuan Barang
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Sidenav from'./Stylist/Component/Nav.jsx';
 import TableBar from'./Stylist/Component/TableBar.jsx';
 import Distribusi from './Stylist/Distribusi.jsx';
+import AddBarang from './Stylist/AddBarang.jsx';
 
 
 function Home() {
@@ -23,8 +24,9 @@ function Home() {
                   <Routes>
                     <Route path="/" element={<TableBar />} />
                     <Route path="/distribusi" element={<Distribusi />} />
+                    <Route path="/AddBarang" element={<AddBarang />} />
                   </Routes>
-                  
+
                 </div>
               </div>
             }
