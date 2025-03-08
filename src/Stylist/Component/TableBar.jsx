@@ -21,7 +21,7 @@ const TableBar = () => {
 
 
       // Title
-      <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto">
+      <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
       <h2 className="text-xl font-bold mb-4">Inventory Table</h2>
 
 
@@ -31,14 +31,15 @@ const TableBar = () => {
         placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full p-2 mb-4 border border-gray-300 rounded"
+        className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
       />
+      <button className="btn btn-accent mb-4 text-white"> + Add Barang</button>
 
 
       {/* Main Content */}
-      <table className="w-full border-collapse border border-gray-300">
+      <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-900 text-white">
             <th className="border border-gray-300 p-2">Foto Barang</th>
             <th className="border border-gray-300 p-2">Nama Barang</th>
             <th className="border border-gray-300 p-2">Qty</th>

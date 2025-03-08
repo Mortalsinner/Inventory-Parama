@@ -32,6 +32,8 @@ const Distribusi = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
       />
+      <button className="btn btn-accent mb-4 text-white"> + Add Distribusi Barang</button>
+      
 
 
 
@@ -48,13 +50,17 @@ const Distribusi = () => {
             <tr key={index}>
               <td className="border border-gray-300 p-2">{item.name}</td>
               <td className="border border-gray-300 p-2 text-center">
-              <button className="btn btn-warning">Detail</button>
+              <button className="btn btn-soft btn-warning">Detail</button>
 
               </td>
             </tr>
           ))}
          </tbody>
         </table>
+
+
+
+
 
  {/* Pagination */}
        
