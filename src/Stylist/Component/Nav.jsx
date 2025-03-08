@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,10 +22,13 @@ export default function Nav() {
         <nav>
           <ul className="space-y-4">
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              Home
+            <Link to="/"> Home
+            </Link>
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              List Barang dan Props
+
+            <Link to="/distribusi">📦 Distribusi</Link>
+            
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
               Pengajuan Barang

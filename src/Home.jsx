@@ -8,7 +8,7 @@ import TableBar from'./Stylist/Component/TableBar.jsx';
 import Distribusi from './Stylist/Distribusi.jsx';
 
 
-function App() {
+function Home() {
   return (
     <Router>
       <div className="flex h-screen">
@@ -19,10 +19,12 @@ function App() {
               <div className="flex h-screen w-full">
                 <Sidenav />
                 <div className="flex-1 p-4 overflow-auto lg:ml-6">
+
                   <Routes>
                     <Route path="/" element={<TableBar />} />
                     <Route path="/distribusi" element={<Distribusi />} />
                   </Routes>
+                  
                 </div>
               </div>
             }
@@ -33,7 +35,7 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
 
      
        
