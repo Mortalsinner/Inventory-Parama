@@ -33,8 +33,9 @@ const Distribusi = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
       />
+      <Link to="/AddDistribusi">
       <button className="btn btn-accent mb-4 text-white"> + Add Distribusi Barang</button>
-      
+      </Link>
 
 
 

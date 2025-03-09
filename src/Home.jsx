@@ -7,6 +7,7 @@ import Sidenav from'./Stylist/Component/Nav.jsx';
 import TableBar from'./Stylist/Component/TableBar.jsx';
 import Distribusi from './Stylist/Distribusi.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
+import AddDistribusi from './Stylist/AddDistribusi.jsx';
 
 
 function Home() {
@@ -25,6 +26,7 @@ function Home() {
                     <Route path="/" element={<TableBar />} />
                     <Route path="/distribusi" element={<Distribusi />} />
                     <Route path="/AddBarang" element={<AddBarang />} />
+                    <Route path="/AddDistribusi" element={<AddDistribusi />} />
                   </Routes>
 
                 </div>
