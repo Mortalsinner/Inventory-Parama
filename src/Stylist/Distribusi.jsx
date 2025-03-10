@@ -64,8 +64,7 @@ const Distribusi = () => {
 
 
 
- {/* Pagination */}
-       
+ {/* Pagination */}  
  <div className="flex justify-center space-x-2 mt-4">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

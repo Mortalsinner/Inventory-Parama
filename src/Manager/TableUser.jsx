@@ -32,9 +32,9 @@ const TableUser = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full p-2 mb-4 border border-gray-300 rounded bg-white"
       />
-      {/* <Link to="/AddBarang"> */}
+      <Link to="/AddUser">
       <button className="btn btn-accent mb-4 text-white"> + Tambah User</button>
-      {/* </Link> */}
+      </Link>
     
 
     {/* Main Content */}

@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 // Import File
 import Sidenav from './Manager/Component/Nav';
 import TableUser from './Manager/TableUser';
-
+import AddUser from './Manager/AddUser';
+import AddBarang from './Stylist/AddBarang';
 
 function HomeManager() {
   return (
@@ -21,7 +22,7 @@ function HomeManager() {
 
                   <Routes>
                   <Route path="/" element={<TableUser />} />
-                   
+                  <Route path="/AddUser" element={<AddUser />} />
                   </Routes>
 
                 </div>
