@@ -7,6 +7,8 @@ import Sidenav from './Manager/Component/Nav';
 import TableUser from './Manager/TableUser';
 import AddUser from './Manager/AddUser';
 import AddBarang from './Stylist/AddBarang';
+import Approval from './Manager/Approval';
+
 
 function HomeManager() {
   return (
@@ -23,6 +25,7 @@ function HomeManager() {
                   <Routes>
                   <Route path="/" element={<TableUser />} />
                   <Route path="/AddUser" element={<AddUser />} />
+                  <Route path="/Approval" element={<Approval />} />
                   </Routes>
 
                 </div>
