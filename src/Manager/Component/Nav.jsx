@@ -26,9 +26,12 @@ export default function Nav() {
             </Link>
             </li>
             <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
+              <Link to="/Approval">List Pengajuan</Link>            
+            </li>
 
-            <Link to="/Approval">List Pengajuan</Link>
-            
+            <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
+             <Link to="/TableBar"> 📷 List Barang
+            </Link>
             </li>
             {/* <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
               Pengajuan Barang

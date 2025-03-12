@@ -8,7 +8,7 @@ import TableUser from './Manager/TableUser';
 import AddUser from './Manager/AddUser';
 import AddBarang from './Stylist/AddBarang';
 import Approval from './Manager/Approval';
-
+import TableBar from './Stylist/Component/TableBar';
 
 function HomeManager() {
   return (
@@ -26,6 +26,7 @@ function HomeManager() {
                   <Route path="/" element={<TableUser />} />
                   <Route path="/AddUser" element={<AddUser />} />
                   <Route path="/Approval" element={<Approval />} />
+                  <Route path="/TableBar" element={<TableBar />} />
                   </Routes>
 
                 </div>
