@@ -8,17 +8,9 @@ const AddUser = () => {
       <h2 className="text-xl font-bold mb-4">Insert User</h2>
 
 
-      <label className="input mb-4">
-                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g></svg>
-                <input type="search" className="grow" placeholder="Masukan Nama Barang atau Props" />
-            <kbd className="kbd kbd-sm">⌘</kbd>
-            <kbd className="kbd kbd-sm">K</kbd>
-        </label><br />
+      <input type="text" placeholder="Username" className="input mb-4" /> <br />
 
-        <label className="input mb-4">
-                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path></g></svg>
-            <input type="text" className="grow" placeholder="index.php" />
-        </label><br />
+      <input type="password" placeholder="password" className="input mb-4" /> <br />
 
         <button className="btn btn-accent mb-4 text-white"> Submit</button>
 

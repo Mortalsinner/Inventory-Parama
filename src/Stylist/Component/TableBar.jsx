@@ -45,7 +45,6 @@ const TableBar = () => {
             <th className="border border-gray-300 p-2">Foto Barang</th>
             <th className="border border-gray-300 p-2">Nama Barang</th>
             <th className="border border-gray-300 p-2">Qty</th>
-            <th className="border border-gray-300 p-2">Status Barang</th>
           </tr>
         </thead>
         <tbody>
@@ -56,7 +55,6 @@ const TableBar = () => {
               </td>
               <td className="border border-gray-300 p-2">{item.name}</td>
               <td className="border border-gray-300 p-2 text-center">{item.qty}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.status}</td>
             </tr>
           ))}
       </tbody>
