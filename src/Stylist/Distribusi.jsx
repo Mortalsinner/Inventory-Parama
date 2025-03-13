@@ -52,7 +52,10 @@ const Distribusi = () => {
             <tr key={index}>
               <td className="border border-gray-300 p-2">{item.name}</td>
               <td className="border border-gray-300 p-2 text-center">
+
+                <Link to="/DetailDis">
               <button className="btn btn-soft btn-warning">Detail</button>
+              </Link>
 
               </td>
             </tr>
