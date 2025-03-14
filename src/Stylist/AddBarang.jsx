@@ -15,7 +15,7 @@ const AddBarang = () => {
 
         <input type="text" placeholder="Quantity" className="input mb-4" /> <br />
         
-        <input type="text" placeholder="Type here" className="input mb-4" /> <br />
+        {/* <input type="text" placeholder="Type here" className="input mb-4" /> <br /> */}
         
         
         <button className="btn btn-accent mb-4 text-white"> Submit</button>

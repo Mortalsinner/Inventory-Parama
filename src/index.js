@@ -4,12 +4,15 @@ import './index.css';
 import Home from './Home';
 import reportWebVitals from './reportWebVitals';
 import HomeManager from './HomeManager';
+import Login from './Login/Login';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Login />
     {/* <Home /> */}
-    <HomeManager/>
+    {/* <HomeManager/> */}
   </React.StrictMode>
 );
 

@@ -1,6 +1,6 @@
 const Approval = () => {
 
-  const items = Array(5).fill({
+  const items = Array(6).fill({
     name: "Nama Barang",
     image: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
     link: "Link barangnya",

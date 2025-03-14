@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 const DetailDis = () => {
    // Pagination
@@ -47,7 +48,11 @@ const DetailDis = () => {
       </tbody>
       </table>
 
+      <button className="btn btn-accent mt-4 text-white"> Print to PDF</button>
 
+     <Link to="/Distribusi">
+      <button className="btn btn-error ml-4 mt-4 text-white">Back</button>
+      </Link>
 </div>
 
     );
