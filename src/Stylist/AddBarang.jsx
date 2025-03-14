@@ -15,7 +15,11 @@ const AddBarang = () => {
 
         <input type="text" placeholder="Quantity" className="input mb-4" /> <br />
         
-        {/* <input type="text" placeholder="Type here" className="input mb-4" /> <br /> */}
+        <select defaultValue="Pick a text editor" className="select select-primary mb-4">
+            <option disabled={true}>Pilih Kategori</option>
+            <option>Properti</option>
+            <option>Gear</option>
+        </select><br />
         
         
         <button className="btn btn-accent mb-4 text-white"> Submit</button>

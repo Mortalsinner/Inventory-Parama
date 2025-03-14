@@ -13,7 +13,7 @@ const TableBar = () => {
   const filteredItems = [...Array(totalItems)].map((_, index) => ({
     name: `Barang ${index + 1}`,
     qty: 10,
-    status: "Tersedia",
+    kategori: "Property",
   })).filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const displayedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -45,6 +45,7 @@ const TableBar = () => {
             <th className="border border-gray-300 p-2">Foto Barang</th>
             <th className="border border-gray-300 p-2">Nama Barang</th>
             <th className="border border-gray-300 p-2">Qty</th>
+            <th className="border border-gray-300 p-2">Kategori</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +56,7 @@ const TableBar = () => {
               </td>
               <td className="border border-gray-300 p-2">{item.name}</td>
               <td className="border border-gray-300 p-2 text-center">{item.qty}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.kategori}</td>
             </tr>
           ))}
       </tbody>
