@@ -24,6 +24,9 @@ const DetailDis = () => {
       <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
       <h2 className="text-xl font-bold mb-4">Nama Sekolah nya</h2>
 
+
+
+
  {/* Main Content */}
       <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>

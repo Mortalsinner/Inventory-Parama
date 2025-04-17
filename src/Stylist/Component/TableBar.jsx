@@ -1,22 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { supabase } from '../../CreateClient';
 
 const TableBar = () => {
-
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [barangData, setBarangData] = useState([]);
   const itemsPerPage = 10;
-  const totalItems = 50;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const filteredItems = [...Array(totalItems)].map((_, index) => ({
-    name: `Barang ${index + 1}`,
-    qty: 10,
-    kategori: "Property",
-  })).filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  useEffect(() => {
+    fetchBarang();
+  }, []);
 
-  const displayedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  async function fetchBarang() {
+    try {
+      const { data, error } = await supabase
+        .from('Barang')  // Changed to lowercase 'barang'
+        .select('*');    // First try with selecting all columns
+
+      if (error) {
+        console.error('Fetch error:', error.message);
+        throw error;
+      }
+      
+      console.log('Fetched data:', data); // Debug log
+      setBarangData(data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  }
+
+  const filteredItems = barangData.filter(item => 
+    item.namaBarang.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const displayedItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage, 
+    currentPage * itemsPerPage
+  );
 
     return ( 
 
@@ -24,6 +46,9 @@ const TableBar = () => {
       // Title
       <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
       <h2 className="text-xl font-bold mb-4">Inventory Table</h2>
+
+
+
 
 
       {/* Searchbar */}
@@ -42,25 +67,27 @@ const TableBar = () => {
       <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>
           <tr className="bg-gray-900 text-white">
-            <th className="border border-gray-300 p-2">Foto Barang</th>
+            <th className="border border-gray-300 p-2">Kode Barang</th>
             <th className="border border-gray-300 p-2">Nama Barang</th>
-            <th className="border border-gray-300 p-2">Qty</th>
-            <th className="border border-gray-300 p-2">Kategori</th>
+            <th className="border border-gray-300 p-2">Jumlah</th>
+            <th className="border border-gray-300 p-2">Sekolah Alokasi</th>
+            <th className="border border-gray-300 p-2">Status</th>
           </tr>
         </thead>
         <tbody>
           {displayedItems.map((item, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 p-2 text-center">
-                <img src="https://via.placeholder.com/50" alt="Barang" className="mx-auto" />
-              </td>
-              <td className="border border-gray-300 p-2">{item.name}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.qty}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.kategori}</td>
+            <tr key={item.id}>
+              <td className="border border-gray-300 p-2">{item.kode_barang}</td>
+              <td className="border border-gray-300 p-2">{item.namaBarang}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.JumlahBarang}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.sekolahAlokasi}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.statusBarang}</td>
             </tr>
           ))}
       </tbody>
       </table>
+
+
 
         {/* Pagination */}
        
