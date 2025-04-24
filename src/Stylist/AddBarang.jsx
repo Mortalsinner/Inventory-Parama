@@ -39,32 +39,38 @@ const AddBarang = () => {  // Component function
 
             // First, try to upload the image if it exists
             let fotoUrl = null;
+            // Update the file upload section
             if (formData.fotoBarang) {
                 try {
                     const fileExt = formData.fotoBarang.name.split('.').pop();
-                    const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+                    const fileName = `public/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
                     
-                    // Try to upload
+                    // Upload to public folder
                     const { data: uploadData, error: uploadError } = await supabase.storage
                         .from('fotobarang')
-                        .upload(fileName, formData.fotoBarang);
-
+                        .upload(fileName, formData.fotoBarang, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+            
                     if (uploadError) {
                         console.error('Upload error:', uploadError);
                         throw uploadError;
                     }
-
-                    // Get public URL only if upload successful
+            
+                    // Get public URL
                     const { data } = supabase.storage
                         .from('fotobarang')
                         .getPublicUrl(fileName);
-
+            
                     if (data) {
                         fotoUrl = data.publicUrl;
+                        console.log('File uploaded to:', fileName);
                     }
                 } catch (uploadError) {
                     console.error('Upload error:', uploadError);
-                    // Continue with submission even if image upload fails
+                    alert('Error uploading image: ' + uploadError.message);
+                    return;
                 }
             }
 
