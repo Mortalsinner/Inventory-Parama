@@ -67,24 +67,48 @@ const TableBar = () => {
       <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>
           <tr className="bg-gray-900 text-white">
+          <th className="border border-gray-300 p-2">Foto Barang</th>
             <th className="border border-gray-300 p-2">Kode Barang</th>
             <th className="border border-gray-300 p-2">Nama Barang</th>
+            <th className="border border-gray-300 p-2">Kategori</th>
             <th className="border border-gray-300 p-2">Jumlah</th>
-            <th className="border border-gray-300 p-2">Sekolah Alokasi</th>
+            {/* <th className="border border-gray-300 p-2">Sekolah Alokasi</th> */}
             <th className="border border-gray-300 p-2">Status</th>
           </tr>
         </thead>
         <tbody>
           {displayedItems.map((item, index) => (
             <tr key={item.id}>
+              <td className="border border-gray-300 p-2">
+    {item.fotoBarang ? (
+      <img 
+        src={supabase.storage
+          .from('fotobarang')
+          .getPublicUrl(item.fotoBarang)
+          .data.publicUrl
+        } 
+        alt={item.namaBarang}
+        className="w-20 h-20 object-cover rounded"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://via.placeholder.com/150?text=No+Image";
+        }}
+      />
+    ) : (
+      <div className="w-20 h-20 bg-gray-200 rounded flex items-center justify-center">
+        No Image
+      </div>
+    )}
+  </td>
               <td className="border border-gray-300 p-2">{item.kode_barang}</td>
               <td className="border border-gray-300 p-2">{item.namaBarang}</td>
+              <td className="border border-gray-300 p-2">{item.kategori}</td>
               <td className="border border-gray-300 p-2 text-center">{item.JumlahBarang}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.sekolahAlokasi}</td>
+              {/* <td className="border border-gray-300 p-2 text-center">{item.sekolahAlokasi}</td> */}
               <td className="border border-gray-300 p-2 text-center">{item.statusBarang}</td>
             </tr>
           ))}
-      </tbody>
+        </tbody>
       </table>
 
 
