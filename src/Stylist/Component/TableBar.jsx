@@ -112,9 +112,9 @@ const TableBar = () => {
             onClick={generatePDF}
             className="btn btn-primary flex items-center gap-2"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-            </svg>
+           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
             Print to PDF
           </button>
         </div>
@@ -122,7 +122,7 @@ const TableBar = () => {
 
       <table className="w-full border-collapse text-black bg-white rounded-lg overflow-hidden shadow-lg">
         <thead>
-          <tr className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+          <tr className="bg-[#11365b] text-white">
             <th className="p-3 font-semibold text-sm uppercase">Foto Barang</th>
             <th className="p-3 font-semibold text-sm uppercase">Kode Barang</th>
             <th className="p-3 font-semibold text-sm uppercase">Nama Barang</th>
@@ -217,7 +217,7 @@ const TableBar = () => {
       <div className="flex justify-center items-center gap-4 mt-6">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 bg-[#11365b] text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           disabled={currentPage === 1}
         >
           Previous
@@ -227,7 +227,7 @@ const TableBar = () => {
         </span>
         <button
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="bg-[#11365b] px-4 py-2 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           disabled={currentPage === totalPages}
         >
           Next
