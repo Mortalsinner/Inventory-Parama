@@ -6,35 +6,53 @@ export default function Nav() {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar - Fixed on Desktop, Toggle on Mobile */}
-      <div
-        className={`bg-gray-900 text-white w-64 p-5 h-full fixed top-0 left-0 transform lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-64"
-        } transition-transform duration-300 ease-in-out lg:relative lg:flex-shrink-0`}
-      >
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-5 right-5 text-gray-300 hover:text-white lg:hidden"
-        >
-          ✕
-        </button>
-        <h2 className="text-2xl font-bold mb-6">Menu</h2>
-        <nav>
-          <ul className="space-y-4">
-            <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-            <Link to="/"> 📷 List Barang
-            </Link>
-            </li>
-            <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
+      <div className={`bg-gradient-to-b from-gray-900 to-gray-800 text-white w-64 flex flex-col justify-between p-5 h-full fixed top-0 left-0 transform lg:translate-x-0 ${
+        isOpen ? "translate-x-0" : "-translate-x-64"
+      } transition-transform duration-300 ease-in-out lg:relative lg:flex-shrink-0`}>
+        
+        {/* Header */}
+        <div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-5 right-5 text-gray-300 hover:text-white lg:hidden"
+          >
+            ✕
+          </button>
+          <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+            <span className="text-accent">📦</span> Inventory
+          </h2>
 
-            <Link to="/distribusi">📦 Distribusi</Link>
-            
-            </li>
-            {/* <li className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded cursor-pointer">
-              Pengajuan Barang
-            </li> */}
-          </ul>
-        </nav>
+          {/* Navigation Menu */}
+          <nav>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/" className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg transition-all duration-200 group">
+                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                  <span className="font-medium">List Barang</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/distribusi" className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg transition-all duration-200 group">
+                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                  <span className="font-medium">Distribusi</span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        {/* Copyright Footer */}
+        <div className="mt-auto pt-4 border-t border-gray-700">
+          <p className="text-sm text-gray-400 text-center">
+            © {new Date().getFullYear()} Parama
+            <br />
+            <span className="text-xs">All rights reserved</span>
+          </p>
+        </div>
       </div>
       
       {/* Overlay */}
@@ -45,13 +63,13 @@ export default function Nav() {
         ></div>
       )}
       
-      {/* Toggle Button - Only Visible on Mobile */}
+      {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="m-4 p-2 bg-gray-900 text-white rounded-md focus:outline-none z-20 lg:hidden"
+        className="fixed top-4 left-4 p-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 focus:outline-none z-20 lg:hidden transition-all duration-200"
       >
         ☰
       </button>
-      </div>
+    </div>
   );
 }
