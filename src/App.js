@@ -24,6 +24,7 @@ function App() {
                     <Route path="/" element={<TableBar />} />
                     <Route path="/distribusi" element={<Distribusi />} />
                     <Route path="/CreateClient" element={<CreateClient />} />
+                    <Route path="/EditBarang" element={<EditBarang />} />
                   </Routes>
                 </div>
               </div>

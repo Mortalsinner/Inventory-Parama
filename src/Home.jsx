@@ -10,9 +10,8 @@ import Distribusi from './Stylist/Distribusi.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
 import AddDistribusi from './Stylist/AddDistribusi.jsx';
 import DetailDis from './Stylist/DetailDis.jsx';
-// import TableClient from './Client/TableClient.jsx';
-// import DetailClient from './Client/DetailClient.jsx';
-// import AddClient from './Client/AddClient.jsx';
+import EditBarang from './Stylist/EditBarang.jsx';
+
 
 
 function Home() {
@@ -36,6 +35,7 @@ function Home() {
                     <Route path="/AddBarang" element={<AddBarang />} />
                     <Route path="/AddDistribusi" element={<AddDistribusi />} />
                     <Route path="/DetailDis" element={<DetailDis />} />
+                    <Route path="/EditBarang/:id" element={<EditBarang />} />
                   </Routes>
 
                 </div>

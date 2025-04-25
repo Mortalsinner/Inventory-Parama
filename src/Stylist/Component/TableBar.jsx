@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { supabase } from '../../CreateClient';
 import DeleteBarang from '../DeleteBarang';
+import EditBarang from '../EditBarang';
 import { useNavigate } from 'react-router-dom';
 
 const TableBar = () => {
@@ -103,9 +104,13 @@ const TableBar = () => {
               <td className="border border-gray-300 p-2 text-center">{item.statusBarang}</td>
               <td className="border border-gray-300 p-2 text-center">
                 <center>
-                  <Link to="/EditBarang">
-                    <button className="btn btn-soft btn-warning">Edit</button>&nbsp;
-                  </Link>
+
+                  {/* Edit Barang */}
+                  <Link to={`/EditBarang/${item.id}`}>
+                      <button className="btn btn-soft btn-warning">Edit</button>
+                  </Link>&nbsp;
+
+                  {/* Delete Button */}
                   <button 
                   className="btn btn-soft btn-error"
                   onClick={async () => {
