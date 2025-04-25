@@ -23,20 +23,13 @@ const TableBar = () => {
 
       if (error) throw error;
 
-      // Update the image URL handling
       const updatedData = data.map(item => {
-        if (!item.fotoBarang) return { ...item, publicUrl: null };
-
-        // Get the file name from the full path if it exists
-        const fileName = item.fotoBarang.includes('/') 
-          ? item.fotoBarang.split('/').pop() 
-          : item.fotoBarang;
-
-        const { data: { publicUrl } } = supabase
-          .storage
-          .from('fotobarang')
-          .getPublicUrl(fileName);
-
+        const publicUrl = item.fotoBarang
+          ? supabase
+              .storage
+              .from('fotobarang')
+              .getPublicUrl(item.fotoBarang).data.publicUrl
+          : null;
         return { ...item, publicUrl };
       });
 
@@ -87,13 +80,12 @@ const TableBar = () => {
           {displayedItems.map((item) => (
             <tr key={item.id}>
               <td className="border border-gray-300 p-2">
-                {item.fotoBarang ? (
+                {item.publicUrl ? (
                   <img
                     src={item.publicUrl}
                     alt={item.namaBarang}
                     className="w-20 h-20 object-cover rounded"
                     onError={(e) => {
-                      console.error('Image load error:', e);
                       e.target.onerror = null;
                       e.target.src = "https://via.placeholder.com/150?text=No+Image";
                     }}
@@ -115,15 +107,21 @@ const TableBar = () => {
                     <button className="btn btn-soft btn-warning">Edit</button>&nbsp;
                   </Link>
                   <button 
-                    className="btn btn-soft btn-error"
-                    onClick={async () => {
-                      if (window.confirm('Apakah Anda yakin ingin menghapus item ini?')) {
-                        await DeleteBarang(item.id, navigate);
+                  className="btn btn-soft btn-error"
+                  onClick={async () => {
+                    if (window.confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+                      const success = await DeleteBarang(item.id);
+                      if (success) {
+                        setBarangData(prev => prev.filter(barang => barang.id !== item.id));
+                        alert('Data berhasil dihapus!');
+                      } else {
+                        alert('Gagal menghapus data.');
                       }
-                    }}
-                  >
-                    Delete
-                  </button>
+                    }
+                  }}
+                >
+                  Delete
+                </button>
                 </center>
               </td>
             </tr>
