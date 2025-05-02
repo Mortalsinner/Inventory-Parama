@@ -105,7 +105,7 @@ const TableBar = () => {
           className="w-50 mr-4 p-2 border border-gray-300 rounded bg-white"
         />
         <div className="flex gap-2">
-          <Link to="/AddBarang">
+          <Link to="AddBarang">
             <button className="btn btn-accent text-white">+ Add Barang</button>
           </Link>
           <button 

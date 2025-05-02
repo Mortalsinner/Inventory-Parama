@@ -8,6 +8,8 @@ import TableBar from'./Stylist/Component/TableBar.jsx';
 import Distribusi from './Stylist/Distribusi.jsx';
 import CreateClient from './Stylist/CreateClient.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
+import AddBarang from './Stylist/AddBarang.jsx';
+import React from 'react';
 
 
 function App() {
@@ -18,9 +20,10 @@ function App() {
         <div className="flex-1 p-4 overflow-auto lg:ml-6">
           <Routes>
             <Route path="/" element={<TableBar />} />
-            <Route path="/distribusi" element={<Distribusi />} />
-            <Route path="/CreateClient" element={<CreateClient />} />
-            <Route path="/EditBarang/:idBarang" element={<EditBarang />} />
+            <Route path="distribusi" element={<Distribusi />} />
+          <Route path="AddBarang" element={<AddBarang />} />
+          <Route path="CreateClient" element={<CreateClient />} />
+          <Route path="EditBarang" element={<EditBarang />} />
           </Routes>
         </div>
       </div>
