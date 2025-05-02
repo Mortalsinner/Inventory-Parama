@@ -10,11 +10,10 @@ const EditBarang = () => {
     const [formData, setFormData] = useState({
         fotoBarang: null,
         namaBarang: '',
-        kode_barang: '',
         JumlahBarang: '',
         kategori: '',
         statusBarang: '',
-        update_at: new Date().toISOString()
+        updated_at: new Date().toISOString()
     });
 
     useEffect(() => {
@@ -34,11 +33,10 @@ const EditBarang = () => {
             setFormData({
                 fotoBarang: data.fotoBarang,
                 namaBarang: data.namaBarang,
-                kode_barang: data.kode_barang,
                 JumlahBarang: data.JumlahBarang,
                 kategori: data.kategori,
                 statusBarang: data.statusBarang,
-                update_at: data.update_at || new Date().toISOString()
+                updated_at: data.updated_at || new Date().toISOString()
             });
         } catch (error) {
             console.error('Error fetching barang:', error);
@@ -67,7 +65,7 @@ const EditBarang = () => {
         e.preventDefault();
         try {
             if (!formData.namaBarang || !formData.JumlahBarang || !formData.statusBarang || 
-                !formData.kode_barang || !formData.kategori) {
+                !formData.kategori) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Validation Error',
@@ -105,12 +103,11 @@ const EditBarang = () => {
                 .from('Barang')
                 .update({
                     fotoBarang: fotoUrl,
-                    kode_barang: formData.kode_barang,
                     namaBarang: formData.namaBarang,
                     JumlahBarang: formData.JumlahBarang,
                     kategori: formData.kategori,
                     statusBarang: formData.statusBarang,
-                    update_at: new Date().toISOString()
+                    updated_at: new Date().toISOString()
                 })
                 .eq('id', id);
 
@@ -141,7 +138,7 @@ const EditBarang = () => {
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Edit Item</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <input type="hidden" name="update_at" value={new Date().toISOString()} />
+                    <input type="hidden" name="updated_at" value={new Date().toISOString()} />
                     
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         {/* File Input */}
@@ -166,18 +163,6 @@ const EditBarang = () => {
                                     value={formData.namaBarang}
                                     onChange={handleChange}
                                     placeholder="Enter item name"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Item Code</label>
-                                <input
-                                    type="text"
-                                    name="kode_barang"
-                                    value={formData.kode_barang}
-                                    onChange={handleChange}
-                                    placeholder="Enter item code"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>

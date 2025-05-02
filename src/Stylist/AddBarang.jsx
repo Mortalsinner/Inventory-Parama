@@ -10,7 +10,6 @@ const AddBarang = () => {
   const [formData, setFormData] = useState({
     fotoBarang: null,
     namaBarang: '',
-    kode_barang: '',
     JumlahBarang: '',
     kategori: '',
     statusBarang: ''
@@ -34,8 +33,7 @@ const AddBarang = () => {
 
     try {
       // Validation
-      if (!formData.namaBarang || !formData.JumlahBarang || !formData.statusBarang ||
-        !formData.kode_barang || !formData.kategori) {
+      if (!formData.namaBarang || !formData.JumlahBarang || !formData.statusBarang || !formData.kategori) {
         Swal.fire({
           icon: 'error',
           title: 'Validation Error',
@@ -76,7 +74,6 @@ const AddBarang = () => {
         .from('Barang')
         .insert([{
           fotoBarang: fotoPath,
-          kode_barang: formData.kode_barang,
           namaBarang: formData.namaBarang,
           JumlahBarang: formData.JumlahBarang,
           kategori: formData.kategori,
@@ -139,17 +136,7 @@ const AddBarang = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Item Code</label>
-                <input
-                  type="text"
-                  name="kode_barang"
-                  value={formData.kode_barang}
-                  onChange={handleChange}
-                  placeholder="Enter item code"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+             
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>

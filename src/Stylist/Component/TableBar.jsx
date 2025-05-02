@@ -69,7 +69,7 @@ const TableBar = () => {
         autoTable(doc, {
             head: [["Kode", "Nama", "Kategori", "Jumlah", "Status"]],
             body: barangData.map(item => [
-                item.kode_barang,
+                item.id,
                 item.namaBarang,
                 item.kategori,
                 item.JumlahBarang,
@@ -152,7 +152,7 @@ const TableBar = () => {
                   </div>
                 )}
               </td>
-              <td className="p-3 font-medium">{item.kode_barang}</td>
+              <td className="p-3 font-medium">{item.id}</td>
               <td className="p-3">{item.namaBarang}</td>
               <td className="p-3">
                 <span className="px-3 py-1 rounded-full text-sm bg-gray-100">{item.kategori}</span>
