@@ -90,7 +90,7 @@ const AddBarang = () => {
         showConfirmButton: false,
         timer: 1500
       }).then(() => {
-        navigate('/');
+        navigate('/home');
       });
 
     } catch (error) {
