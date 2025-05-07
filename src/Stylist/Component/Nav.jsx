@@ -28,7 +28,7 @@ export default function Nav() {
           <nav>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="flex items-center gap-3 p-3 hover:bg-[#1a4b85] rounded-lg transition-all duration-200 group">
+                <Link to="/home" className="flex items-center gap-3 p-3 hover:bg-[#1a4b85] rounded-lg transition-all duration-200 group">
                   <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>

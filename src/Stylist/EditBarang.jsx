@@ -120,7 +120,7 @@ const EditBarang = () => {
                 timer: 1500,
                 showConfirmButton: false
             }).then(() => {
-                navigate('/');
+                navigate('/home');
             });
         } catch (error) {
             console.error('Error updating data:', error);

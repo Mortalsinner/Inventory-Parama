@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Outlet} from "react-router-dom";
 import { supabase } from '../../CreateClient';
 import DeleteBarang from '../DeleteBarang';
-import EditBarang from '../EditBarang';
+
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 // Update imports at the top
@@ -105,7 +105,7 @@ const TableBar = () => {
           className="w-50 mr-4 p-2 border border-gray-300 rounded bg-white"
         />
         <div className="flex gap-2">
-          <Link to="/AddBarang">
+          <Link to="AddBarang">
             <button className="btn btn-accent text-white">+ Add Barang</button>
           </Link>
           <button 
@@ -167,7 +167,7 @@ const TableBar = () => {
               </td>
               <td className="p-3 text-center">
                 <div className="flex justify-center gap-2">
-                  <Link to={`/EditBarang/${item.id}`}>
+                  <Link to={`/home/EditBarang/${item.id}`}>
                     <button className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
                       Edit
                     </button>
@@ -234,6 +234,7 @@ const TableBar = () => {
         </button>
       </div>
     </div>
+   
   );
 };
 
