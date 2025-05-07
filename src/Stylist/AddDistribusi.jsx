@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../CreateClient';
 import Swal from 'sweetalert2';
@@ -6,8 +6,23 @@ import Swal from 'sweetalert2';
 const AddDistribusi = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    namaSekolah: ''
+    namaSekolah: '',
+    iduser: ''
   });
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch user list untuk select
+    const fetchUsers = async () => {
+      const { data, error } = await supabase
+        .from('User')
+        .select('iduser, Username');
+      if (!error && data) {
+        setUsers(data);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,11 +34,11 @@ const AddDistribusi = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.namaSekolah) {
+    if (!formData.namaSekolah || !formData.iduser) {
       Swal.fire({
         icon: 'error',
         title: 'Validasi Gagal',
-        text: 'Nama Sekolah wajib diisi!'
+        text: 'Nama Sekolah dan User wajib diisi!'
       });
       return;
     }
@@ -32,7 +47,8 @@ const AddDistribusi = () => {
       const { error } = await supabase
         .from('Stok')
         .insert([{
-          namaSekolah: formData.namaSekolah
+          namaSekolah: formData.namaSekolah,
+          iduser: formData.iduser
         }]);
 
       if (error) throw error;
@@ -61,7 +77,7 @@ const AddDistribusi = () => {
         <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Tambah Distribusi Barang</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <div>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Nama Sekolah</label>
               <input
                 type="text"
@@ -71,6 +87,23 @@ const AddDistribusi = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 required
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">User</label>
+              <select
+                name="iduser"
+                value={formData.iduser}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
+                required
+              >
+                <option value="">Pilih User</option>
+                {users.map(user => (
+                  <option key={user.iduser} value={user.iduser}>
+                    {user.Username}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="flex justify-end gap-4">
