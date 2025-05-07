@@ -9,7 +9,7 @@ import Distribusi from './Stylist/Distribusi.jsx';
 import CreateClient from './Stylist/CreateClient.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
-import AddDistribusi from './Stylist/AddDistribusi.jsx';
+import AddSekolah from './Stylist/AddSekolah.jsx';
 import TableDistribusi from './Stylist/Component/TableDistribusi.jsx';
 
 function App() {

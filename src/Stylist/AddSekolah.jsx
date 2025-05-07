@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../CreateClient';
 import Swal from 'sweetalert2';
 
-const AddDistribusi = () => {
+const AddSekolah = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     namaSekolah: '',
@@ -128,4 +128,4 @@ const AddDistribusi = () => {
   );
 };
 
-export default AddDistribusi;
+export default AddSekolah;

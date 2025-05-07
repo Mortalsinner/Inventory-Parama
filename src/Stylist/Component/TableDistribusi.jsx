@@ -83,8 +83,8 @@ const TableDistribusi = () => {
                     className="w-50 mr-4 p-2 border border-gray-300 rounded bg-white"
                 />
                 <div className="flex gap-2">
-                    <Link to="AddDistribusi">
-                        <button className="btn btn-accent text-white">+ Tambah Distribusi</button>
+                    <Link to="AddSekolah">
+                        <button className="btn btn-accent text-white">+ Tambah Sekolah</button>
                     </Link>
                     <button 
                         onClick={generatePDF}
@@ -116,10 +116,19 @@ const TableDistribusi = () => {
                                     {item.statusBarang}
                                 </span>
                             </td>
+
+
+                            {/* Action Button */}
                             <td className="p-3 text-center">
                                 <Link to="/DetailDis">
                                     <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
                                         Detail
+                                    </button>
+                                </Link>&nbsp;
+                            
+                                <Link to="/AddStok">
+                                    <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
+                                        Add Distribusi
                                     </button>
                                 </Link>
                             </td>

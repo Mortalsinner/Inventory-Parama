@@ -6,9 +6,8 @@ import { supabase, testConnection } from './CreateClient';
 // Import File
 import Sidenav from './Stylist/Component/Nav.jsx';
 import TableBar from './Stylist/Component/TableBar.jsx';
-import Distribusi from './Stylist/Distribusi.jsx';
+import AddSekolah from './Stylist/AddSekolah.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
-import AddDistribusi from './Stylist/AddDistribusi.jsx';
 import DetailDis from './Stylist/DetailDis.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
 
@@ -24,7 +23,7 @@ function Home() {
         <Routes>
           <Route path="/" element={<TableBar />} />
           <Route path="AddBarang" element={<AddBarang />} />
-          <Route path="AddDistribusi" element={<AddDistribusi />} />
+          <Route path="AddSekolah" element={<AddSekolah />} />
           <Route path="DetailDis" element={<DetailDis />} />
           <Route path="EditBarang/:idBarang" element={<EditBarang />} />
         </Routes>

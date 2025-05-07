@@ -6,7 +6,7 @@ import { supabase, testConnection } from '../CreateClient';
 // Import File
 import Sidenav from './Component/Nav.jsx';
 import TableDistribusi from './Component/TableDistribusi.jsx';
-import AddDistribusi from './AddDistribusi.jsx';
+import AddSekolah from './AddSekolah.jsx';
 
 function Distribusi() {
   useEffect(() => {
@@ -19,7 +19,7 @@ function Distribusi() {
       <div className="flex-1 p-4 overflow-auto lg:ml-6">
         <Routes>
           <Route path="/" element={<TableDistribusi />} />
-          <Route path="addDistribusi" element={<AddDistribusi />} />
+          <Route path="AddSekolah" element={<AddSekolah />} />
         </Routes>
       </div>
     </div>
