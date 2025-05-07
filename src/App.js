@@ -24,7 +24,7 @@ function App() {
             {/* Inventory */}
             <Route path="AddBarang" element={<AddBarang />} />
             <Route path="CreateClient" element={<CreateClient />} />
-            <Route path="EditBarang/:id" element={<EditBarang />} />
+            <Route path="EditBarang/:idBarang" element={<EditBarang />} />
             {/* Distribusi */}
             <Route path="AddDistribusi" element={<AddDistribusi />} />
           </Routes>

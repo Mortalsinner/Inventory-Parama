@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const EditBarang = () => {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { idBarang } = useParams();
     
     const [formData, setFormData] = useState({
         fotoBarang: null,
@@ -25,7 +25,7 @@ const EditBarang = () => {
             const { data, error } = await supabase
                 .from('Barang')
                 .select('*')
-                .eq('id', id)
+                .eq('idBarang', idBarang)
                 .single();
 
             if (error) throw error;
@@ -109,7 +109,7 @@ const EditBarang = () => {
                     statusBarang: formData.statusBarang,
                     updated_at: new Date().toISOString()
                 })
-                .eq('id', id);
+                .eq('idBarang', idBarang);
 
             if (error) throw error;
             

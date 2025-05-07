@@ -38,6 +38,11 @@ const Login = () => {
                     timer: 1500,
                     showConfirmButton: false
                 }).then(() => {
+                    // Tambahkan console log untuk membaca session token
+                    supabase.auth.getSession().then(({ data: sessionData }) => {
+                        console.log('Session token:', sessionData?.session?.access_token);
+                    });
+
                     // Arahkan ke halaman yang sesuai berdasarkan role
                     if (data.Role === 'Admin') {
                         navigate('/manager');

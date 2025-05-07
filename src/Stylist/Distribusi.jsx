@@ -1,6 +1,6 @@
 import logo from '../logo.svg';
 import '../App.css';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect } from 'react';
 import { supabase, testConnection } from '../CreateClient';
 // Import File
@@ -17,8 +17,8 @@ function Distribusi() {
     <div className="flex h-screen">
       <Sidenav />
       <div className="flex-1 p-4 overflow-auto lg:ml-6">
-      <TableDistribusi />
         <Routes>
+          <Route path="/" element={<TableDistribusi />} />
           <Route path="addDistribusi" element={<AddDistribusi />} />
         </Routes>
       </div>

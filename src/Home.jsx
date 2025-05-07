@@ -26,7 +26,7 @@ function Home() {
           <Route path="AddBarang" element={<AddBarang />} />
           <Route path="AddDistribusi" element={<AddDistribusi />} />
           <Route path="DetailDis" element={<DetailDis />} />
-          <Route path="EditBarang/:id" element={<EditBarang />} />
+          <Route path="EditBarang/:idBarang" element={<EditBarang />} />
         </Routes>
       </div>
     </div>
