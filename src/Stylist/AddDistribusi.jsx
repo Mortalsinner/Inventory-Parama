@@ -12,11 +12,12 @@ const AddDistribusi = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Fetch user list untuk select
+    // Fetch user list untuk select, hanya yang role Stylist
     const fetchUsers = async () => {
       const { data, error } = await supabase
         .from('User')
-        .select('iduser, Username');
+        .select('iduser, Username, Role')
+        .eq('Role', 'Stylist');
       if (!error && data) {
         setUsers(data);
       }
@@ -89,7 +90,7 @@ const AddDistribusi = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">User</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">User (Stylist)</label>
               <select
                 name="iduser"
                 value={formData.iduser}
