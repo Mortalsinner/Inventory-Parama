@@ -23,7 +23,6 @@ function Home() {
       <div className="flex-1 p-4 overflow-auto lg:ml-6">
         <Routes>
           <Route path="/" element={<TableBar />} />
-          <Route path="/Distribusi" element={<Distribusi />} />
           <Route path="AddBarang" element={<AddBarang />} />
           <Route path="AddDistribusi" element={<AddDistribusi />} />
           <Route path="DetailDis" element={<DetailDis />} />

@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link, Outlet} from "react-router-dom";
 import { supabase } from '../../CreateClient';
 import DeleteBarang from '../DeleteBarang';
-import EditBarang from '../EditBarang';
-import AddBarang from "../AddBarang";
+
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 // Update imports at the top

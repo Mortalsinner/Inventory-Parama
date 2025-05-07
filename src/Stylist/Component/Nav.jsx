@@ -36,7 +36,7 @@ export default function Nav() {
                 </Link>
               </li>
               <li>
-                <Link to="/Distribusi" className="flex items-center gap-3 p-3 hover:bg-[#1a4b85] rounded-lg transition-all duration-200 group">
+                <Link to="/distribusi" className="flex items-center gap-3 p-3 hover:bg-[#1a4b85] rounded-lg transition-all duration-200 group">
                   <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
