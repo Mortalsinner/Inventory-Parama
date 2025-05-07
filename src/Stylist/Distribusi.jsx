@@ -7,6 +7,7 @@ import { supabase, testConnection } from '../CreateClient';
 import Sidenav from './Component/Nav.jsx';
 import TableDistribusi from './Component/TableDistribusi.jsx';
 import AddSekolah from './AddSekolah.jsx';
+import AddStok from './AddStok.jsx';
 
 function Distribusi() {
   useEffect(() => {
@@ -20,6 +21,7 @@ function Distribusi() {
         <Routes>
           <Route path="/" element={<TableDistribusi />} />
           <Route path="AddSekolah" element={<AddSekolah />} />
+          <Route path="AddStok" element={<AddStok />} />
         </Routes>
       </div>
     </div>

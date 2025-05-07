@@ -10,6 +10,7 @@ import CreateClient from './Stylist/CreateClient.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
 import AddSekolah from './Stylist/AddSekolah.jsx';
+import AddStok from './Stylist/AddStok.jsx';
 import TableDistribusi from './Stylist/Component/TableDistribusi.jsx';
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
             <Route path="EditBarang/:idBarang" element={<EditBarang />} />
             {/* Distribusi */}
             <Route path="AddDistribusi" element={<AddDistribusi />} />
+            <Route path="AddSekolah" element={<AddSekolah />} />
+            <Route path="AddStok" element={<AddStok />} />
           </Routes>
         </div>
       </div>
