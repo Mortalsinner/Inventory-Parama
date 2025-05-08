@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom"; // tambahkan useParams
+import { Link, useParams } from "react-router-dom";
 import { supabase } from '../CreateClient';
 
 const DetailDis = () => {
@@ -8,7 +8,7 @@ const DetailDis = () => {
   const [stokData, setStokData] = useState([]);
   const [barangMap, setBarangMap] = useState({});
   const itemsPerPage = 10;
-  const { KodeStok } = useParams(); // ambil KodeStok dari URL
+  const { KodeStok } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,10 +18,10 @@ const DetailDis = () => {
         .select('idBarang, namaBarang, fotoBarang, statusBarang');
       if (barangError) return;
 
-      // Buat map idBarang -> data barang
+      // Buat map namaBarang -> data barang
       const barangMap = {};
       barangData.forEach(barang => {
-        barangMap[barang.namaBarang] = barang; // mapping by namaBarang karena relasi di Detail_Stok_Barang pakai NamaBarang
+        barangMap[barang.namaBarang] = barang;
       });
       setBarangMap(barangMap);
 
@@ -55,7 +55,7 @@ const DetailDis = () => {
   return (
     <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
       <h2 className="text-xl font-bold mb-4">
-        {displayedItems[0]?.namaSekolah || "Nama Sekolah"}
+        {KodeStok ? `Detail Distribusi KodeStok: ${KodeStok}` : "Detail Stok Barang"}
       </h2>
 
       <input

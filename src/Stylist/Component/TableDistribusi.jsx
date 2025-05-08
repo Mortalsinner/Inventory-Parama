@@ -13,14 +13,14 @@ const TableDistribusi = () => {
     const itemsPerPage = 7;
 
     useEffect(() => {
-        fetchStok();
+        fetchDistribusiBarang();
     }, []);
 
-    const fetchStok = async () => {
+    const fetchDistribusiBarang = async () => {
         try {
             const { data, error } = await supabase
-                .from('Stok')
-                .select('namaSekolah, statusBarang, KodeStok'); // tambahkan KodeStok
+                .from('Distribusi_Barang')
+                .select('idDetailDistribusi, create_By, namaSekolah, statusPengiriman');
             if (error) throw error;
             setStokData(data || []);
         } catch (error) {
@@ -28,7 +28,7 @@ const TableDistribusi = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Gagal mengambil data Stok'
+                text: 'Gagal mengambil data Distribusi Barang'
             });
         }
     };
@@ -49,10 +49,10 @@ const TableDistribusi = () => {
             doc.text(`Tanggal: ${new Date().toLocaleDateString()}`, 14, 30);
 
             autoTable(doc, {
-                head: [["Nama Sekolah", "Status"]],
+                head: [["Nama Sekolah", "Status Pengiriman"]],
                 body: filteredItems.map(item => [
                     item.namaSekolah || "-",
-                    item.statusBarang || "-"
+                    item.statusPengiriman || "-"
                 ]),
                 startY: 40,
                 styles: { fontSize: 8 },
@@ -101,32 +101,33 @@ const TableDistribusi = () => {
                 <thead>
                     <tr className="bg-[#11365b] text-white">
                         <th className="p-3 font-semibold text-sm uppercase">Nama Sekolah</th>
-                        <th className="p-3 font-semibold text-sm uppercase">Status</th>
+                        <th className="p-3 font-semibold text-sm uppercase">Status Pengiriman</th>
+                        <th className="p-3 font-semibold text-sm uppercase">Create By</th>
                         <th className="p-3 font-semibold text-sm uppercase">Detail</th>
                     </tr>
                 </thead>
                 <tbody>
                     {displayedItems.map((item, index) => (
                         <tr key={index} className={`border-b border-gray-200 hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
-                            {/* Hidden input untuk KodeStok */}
-                            <input type="hidden" name="KodeStok" value={item.KodeStok} />
                             <td className="p-3">{item.namaSekolah}</td>
                             <td className="p-3 text-center">
                                 <span className={`px-3 py-1 rounded-full text-sm ${
-                                    item.statusBarang === 'Tersedia' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                    item.statusPengiriman === 'dikirim' ? 'bg-green-100 text-green-800'
+                                    : item.statusPengiriman === 'diterima' ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-red-100 text-red-800'
                                 }`}>
-                                    {item.statusBarang}
+                                    {item.statusPengiriman}
                                 </span>
                             </td>
+                            <td className="p-3">{item.create_By}</td>
                             <td className="p-3 text-center">
-                                {/* Detail Distribusi */}
-                                <Link to={`DetailDis/${item.KodeStok}`}>
-                                <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
-                                Detail Distribusi
-                                </button>
-                                </Link>&nbsp;
-                                {/* Add Distribusi */}
-                                <Link to={`AddStok/${item.KodeStok}`}>
+                                <Link to={`DetailDis/${item.idDetailDistribusi}`}>
+                                    <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
+                                        Detail Distribusi
+                                    </button>
+                                </Link>
+                                &nbsp;
+                                <Link to={`AddStok/${item.idDetailDistribusi}`}>
                                     <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
                                 </Link>
                             </td>
