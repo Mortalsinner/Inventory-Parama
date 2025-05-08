@@ -126,7 +126,7 @@ const TableDistribusi = () => {
                                 </button>
                                 </Link>&nbsp;
                                 {/* Add Distribusi */}
-                                <Link to="AddStok">
+                                <Link to={`AddStok/${item.KodeStok}`}>
                                     <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
                                 </Link>
                             </td>

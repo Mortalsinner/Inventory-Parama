@@ -30,7 +30,7 @@ function App() {
             {/* Distribusi */}
             <Route path="AddDistribusi" element={<AddDistribusi />} />
             <Route path="AddSekolah" element={<AddSekolah />} />
-            <Route path="AddStok" element={<AddStok />} />
+            <Route path="AddStok/:KodeStok" element={<AddStok />} />
             <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
           </Routes>
         </div>

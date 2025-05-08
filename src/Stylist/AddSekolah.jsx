@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../CreateClient';
 import Swal from 'sweetalert2';
@@ -6,24 +6,8 @@ import Swal from 'sweetalert2';
 const AddSekolah = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    namaSekolah: '',
-    iduser: ''
+    namaSekolah: ''
   });
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    // Fetch user list untuk select, hanya yang role Stylist
-    const fetchUsers = async () => {
-      const { data, error } = await supabase
-        .from('User')
-        .select('iduser, Username, Role')
-        .eq('Role', 'Stylist');
-      if (!error && data) {
-        setUsers(data);
-      }
-    };
-    fetchUsers();
-  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -35,11 +19,11 @@ const AddSekolah = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.namaSekolah || !formData.iduser) {
+    if (!formData.namaSekolah) {
       Swal.fire({
         icon: 'error',
         title: 'Validasi Gagal',
-        text: 'Nama Sekolah dan User wajib diisi!'
+        text: 'Nama Sekolah wajib diisi!'
       });
       return;
     }
@@ -48,8 +32,7 @@ const AddSekolah = () => {
       const { error } = await supabase
         .from('Stok')
         .insert([{
-          namaSekolah: formData.namaSekolah,
-          iduser: formData.iduser
+          namaSekolah: formData.namaSekolah
         }]);
 
       if (error) throw error;
@@ -88,23 +71,6 @@ const AddSekolah = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 required
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">User (Stylist)</label>
-              <select
-                name="iduser"
-                value={formData.iduser}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
-                required
-              >
-                <option value="">Pilih User</option>
-                {users.map(user => (
-                  <option key={user.iduser} value={user.iduser}>
-                    {user.Username}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
           <div className="flex justify-end gap-4">

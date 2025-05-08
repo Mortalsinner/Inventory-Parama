@@ -1,32 +1,53 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom"; // tambahkan useParams
 import { supabase } from '../CreateClient';
 
 const DetailDis = () => {
-  const { KodeStok } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [stokData, setStokData] = useState([]);
+  const [barangMap, setBarangMap] = useState({});
   const itemsPerPage = 10;
+  const { KodeStok } = useParams(); // ambil KodeStok dari URL
 
   useEffect(() => {
-    const fetchStok = async () => {
-      const { data, error } = await supabase
-        .from('Stok')
+    const fetchData = async () => {
+      // Ambil semua barang untuk mapping foto/nama
+      const { data: barangData, error: barangError } = await supabase
+        .from('Barang')
+        .select('idBarang, namaBarang, fotoBarang, statusBarang');
+      if (barangError) return;
+
+      // Buat map idBarang -> data barang
+      const barangMap = {};
+      barangData.forEach(barang => {
+        barangMap[barang.namaBarang] = barang; // mapping by namaBarang karena relasi di Detail_Stok_Barang pakai NamaBarang
+      });
+      setBarangMap(barangMap);
+
+      // Ambil detail stok barang berdasarkan KodeStok
+      const { data: detailData, error: detailError } = await supabase
+        .from('Detail_Stok_Barang')
         .select('*')
         .eq('KodeStok', KodeStok);
-      if (!error && data) {
-        setStokData(data);
+      if (!detailError && detailData) {
+        setStokData(detailData);
       }
     };
-    if (KodeStok) {
-      fetchStok();
-    }
+    fetchData();
   }, [KodeStok]);
 
-  const filteredItems = stokData.filter(item =>
-    (item.namaBarang || '').toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredItems = stokData
+    .map(item => ({
+      ...item,
+      namaBarang: item.NamaBarang,
+      fotoBarang: barangMap[item.NamaBarang]?.fotoBarang || "",
+      statusBarang: barangMap[item.NamaBarang]?.statusBarang || "",
+      qtyBarang: item.qtyBarang
+    }))
+    .filter(item =>
+      (item.namaBarang || '').toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const displayedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
