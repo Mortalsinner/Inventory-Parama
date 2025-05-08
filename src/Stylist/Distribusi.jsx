@@ -8,6 +8,7 @@ import Sidenav from './Component/Nav.jsx';
 import TableDistribusi from './Component/TableDistribusi.jsx';
 import AddSekolah from './AddSekolah.jsx';
 import AddStok from './AddStok.jsx';
+import DetailDis from './DetailDis.jsx';
 
 function Distribusi() {
   useEffect(() => {
@@ -22,6 +23,7 @@ function Distribusi() {
           <Route path="/" element={<TableDistribusi />} />
           <Route path="AddSekolah" element={<AddSekolah />} />
           <Route path="AddStok" element={<AddStok />} />
+          <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
         </Routes>
       </div>
     </div>

@@ -12,6 +12,7 @@ import AddBarang from './Stylist/AddBarang.jsx';
 import AddSekolah from './Stylist/AddSekolah.jsx';
 import AddStok from './Stylist/AddStok.jsx';
 import TableDistribusi from './Stylist/Component/TableDistribusi.jsx';
+import DetailDis from './Stylist/DetailDis.jsx';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="AddDistribusi" element={<AddDistribusi />} />
             <Route path="AddSekolah" element={<AddSekolah />} />
             <Route path="AddStok" element={<AddStok />} />
+            <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
           </Routes>
         </div>
       </div>

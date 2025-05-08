@@ -1,33 +1,50 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { supabase } from '../CreateClient';
 
 const DetailDis = () => {
-   // Pagination
-     const [currentPage, setCurrentPage] = useState(1);
-     const [searchTerm, setSearchTerm] = useState("");
-     const itemsPerPage = 10;
-     const totalItems = 50;
-     const totalPages = Math.ceil(totalItems / itemsPerPage);
-   
-     const filteredItems = [...Array(totalItems)].map((_, index) => ({
-       name: `Barang ${index + 1}`,
-       qty: 10,
-       status: "Tersedia",
-     })).filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
-   
-     const displayedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const { KodeStok } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [stokData, setStokData] = useState([]);
+  const itemsPerPage = 10;
 
-     
-    return (  
+  useEffect(() => {
+    const fetchStok = async () => {
+      const { data, error } = await supabase
+        .from('Stok')
+        .select('*')
+        .eq('KodeStok', KodeStok);
+      if (!error && data) {
+        setStokData(data);
+      }
+    };
+    if (KodeStok) {
+      fetchStok();
+    }
+  }, [KodeStok]);
 
-    // Title
-      <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
-      <h2 className="text-xl font-bold mb-4">Nama Sekolah nya</h2>
+  const filteredItems = stokData.filter(item =>
+    (item.namaBarang || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const displayedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  return (
+    <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
+      <h2 className="text-xl font-bold mb-4">
+        {displayedItems[0]?.namaSekolah || "Nama Sekolah"}
+      </h2>
 
+      <input
+        type="text"
+        placeholder="Cari barang..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4 p-2 border border-gray-300 rounded bg-white"
+      />
 
- {/* Main Content */}
       <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>
           <tr className="bg-gray-900 text-white">
@@ -41,24 +58,43 @@ const DetailDis = () => {
           {displayedItems.map((item, index) => (
             <tr key={index}>
               <td className="border border-gray-300 p-2 text-center">
-                <img src="https://via.placeholder.com/50" alt="Barang" className="mx-auto" />
+                <img src={item.fotoBarang || "https://via.placeholder.com/50"} alt="Barang" className="mx-auto" />
               </td>
-              <td className="border border-gray-300 p-2">{item.name}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.qty}</td>
-              <td className="border border-gray-300 p-2 text-center">{item.status}</td>
+              <td className="border border-gray-300 p-2">{item.namaBarang}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.qtyBarang}</td>
+              <td className="border border-gray-300 p-2 text-center">{item.statusBarang}</td>
             </tr>
           ))}
-      </tbody>
+        </tbody>
       </table>
+
+      <div className="flex justify-between items-center mt-4">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          className="btn btn-secondary"
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          className="btn btn-secondary"
+        >
+          Next
+        </button>
+      </div>
 
       <button className="btn btn-accent mt-4 text-white"> Print to PDF</button>
 
-     <Link to="/Distribusi">
-      <button className="btn btn-error ml-4 mt-4 text-white">Back</button>
+      <Link to="/Distribusi">
+        <button className="btn btn-error ml-4 mt-4 text-white">Back</button>
       </Link>
-</div>
+    </div>
+  );
+};
 
-    );
-}
- 
 export default DetailDis;

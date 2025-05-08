@@ -20,7 +20,7 @@ const TableDistribusi = () => {
         try {
             const { data, error } = await supabase
                 .from('Stok')
-                .select('namaSekolah, statusBarang');
+                .select('namaSekolah, statusBarang, KodeStok'); // tambahkan KodeStok
             if (error) throw error;
             setStokData(data || []);
         } catch (error) {
@@ -108,6 +108,8 @@ const TableDistribusi = () => {
                 <tbody>
                     {displayedItems.map((item, index) => (
                         <tr key={index} className={`border-b border-gray-200 hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+                            {/* Hidden input untuk KodeStok */}
+                            <input type="hidden" name="KodeStok" value={item.KodeStok} />
                             <td className="p-3">{item.namaSekolah}</td>
                             <td className="p-3 text-center">
                                 <span className={`px-3 py-1 rounded-full text-sm ${
@@ -117,14 +119,12 @@ const TableDistribusi = () => {
                                 </span>
                             </td>
                             <td className="p-3 text-center">
-
                                 {/* Detail Distribusi */}
-                                <Link to="/DetailDis">
-                                    <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
-                                        Detail
-                                    </button>
+                                <Link to={`DetailDis/${item.KodeStok}`}>
+                                <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
+                                Detail Distribusi
+                                </button>
                                 </Link>&nbsp;
-
                                 {/* Add Distribusi */}
                                 <Link to="AddStok">
                                     <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
