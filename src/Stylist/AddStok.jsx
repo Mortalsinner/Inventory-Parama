@@ -4,20 +4,16 @@ import { supabase } from '../CreateClient';
 import Swal from 'sweetalert2';
 
 const AddStok = () => {
-    const navigate = useNavigate();
     const { KodeStok } = useParams();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ idBarang: '', qtyBarang: '' });
     const [barangList, setBarangList] = useState([]);
-    const [formData, setFormData] = useState({
-        NamaBarang: '',
-        qtyBarang: ''
-    });
-
     useEffect(() => {
         // Ambil daftar barang untuk select
         const fetchBarang = async () => {
             const { data, error } = await supabase
                 .from('Barang')
-                .select('namaBarang');
+                .select('idBarang, namaBarang');
             if (!error && data) {
                 setBarangList(data);
             }
@@ -35,7 +31,7 @@ const AddStok = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        if (!formData.NamaBarang || !formData.qtyBarang) {
+        if (!formData.idBarang || !formData.qtyBarang) {
             Swal.fire({
                 icon: 'error',
                 title: 'Validasi Gagal',
@@ -45,20 +41,21 @@ const AddStok = () => {
         }
     
         try {
-            // Insert ke tabel Detail_Stok_Barang
+            // Insert ke tabel Stok_Barang
             const { error } = await supabase
-                .from('Detail_Stok_Barang')
+                .from('Stok_Barang')
                 .insert([{
-                    KodeStok: KodeStok ? parseInt(KodeStok) : null,
-                    NamaBarang: formData.NamaBarang,
-                    qtyBarang: parseInt(formData.qtyBarang)
+                    idDetailDistribusi: KodeStok ? parseInt(KodeStok) : null,
+                    idBarang: parseInt(formData.idBarang),
+                    qtyBarang: parseInt(formData.qtyBarang),
+                    created_at: new Date().toISOString()
                 }]);
             if (error) throw error;
     
             Swal.fire({
                 icon: 'success',
                 title: 'Sukses',
-                text: 'Detail stok barang berhasil ditambahkan!',
+                text: 'Stok barang berhasil ditambahkan!',
                 timer: 1500,
                 showConfirmButton: false
             }).then(() => {
@@ -77,22 +74,22 @@ const AddStok = () => {
         <div className="flex-1 p-8 bg-gradient-to-br from-gray-50 to-white shadow-xl rounded-lg h-screen overflow-auto">
             <div className="max-w-xl mx-auto">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">
-                    Tambah Detail Stok Barang
+                    Tambah Stok Barang ke Distribusi
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 mb-2">Pilih Nama Barang</label>
                             <select
-                                name="NamaBarang"
-                                value={formData.NamaBarang}
+                                name="idBarang"
+                                value={formData.idBarang}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
                                 required
                             >
                                 <option value="">Pilih Barang</option>
-                                {barangList.map((barang, idx) => (
-                                    <option key={idx} value={barang.namaBarang}>
+                                {barangList.map((barang) => (
+                                    <option key={barang.idBarang} value={barang.idBarang}>
                                         {barang.namaBarang}
                                     </option>
                                 ))}
