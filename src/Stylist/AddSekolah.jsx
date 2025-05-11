@@ -87,8 +87,6 @@ const AddSekolah = () => {
               >
                 <option value="">Pilih Status</option>
                 <option value="belum dikirim">Belum Dikirim</option>
-                <option value="dikirim">Dikirim</option>
-                <option value="diterima">Diterima</option>
               </select>
             </div>
             <div className="mb-4">

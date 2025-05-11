@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from 'react';
-import { supabase, testConnection } from './CreateClient';
+import { supabase, testConnection } from './CreateClient.jsx';
 // Import File
 import Sidenav from './Stylist/Component/Nav.jsx';
 import TableBar from './Stylist/Component/TableBar.jsx';

@@ -6,8 +6,9 @@ import Swal from 'sweetalert2';
 const AddStok = () => {
     const { KodeStok } = useParams();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ idBarang: '', qtyBarang: '' });
+    const [formData, setFormData] = useState([{ idBarang: '', qtyBarang: '' }]);
     const [barangList, setBarangList] = useState([]);
+
     useEffect(() => {
         // Ambil daftar barang untuk select
         const fetchBarang = async () => {
@@ -21,37 +22,50 @@ const AddStok = () => {
         fetchBarang();
     }, []);
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+    const handleChange = (index, e) => {
+        const newFormData = [...formData];
+        newFormData[index][e.target.name] = e.target.value;
+        setFormData(newFormData);
+    };
+
+    const handleAddRow = () => {
+        setFormData([...formData, { idBarang: '', qtyBarang: '' }]);
+    };
+
+    const handleRemoveRow = (index) => {
+        if (formData.length === 1) return;
+        const newFormData = formData.filter((_, i) => i !== index);
+        setFormData(newFormData);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        if (!formData.idBarang || !formData.qtyBarang) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validasi Gagal',
-                text: 'Nama Barang dan Jumlah wajib diisi!'
-            });
-            return;
+
+        // Validasi semua input
+        for (let i = 0; i < formData.length; i++) {
+            if (!formData[i].idBarang || !formData[i].qtyBarang) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    text: 'Nama Barang dan Jumlah wajib diisi di semua baris!'
+                });
+                return;
+            }
         }
-    
+
         try {
-            // Insert ke tabel Stok_Barang
+            // Insert multiple rows ke tabel Stok_Barang
+            const rows = formData.map(item => ({
+                idDetailDistribusi: KodeStok ? parseInt(KodeStok) : null,
+                idBarang: parseInt(item.idBarang),
+                qtyBarang: parseInt(item.qtyBarang),
+                created_at: new Date().toISOString()
+            }));
             const { error } = await supabase
                 .from('Stok_Barang')
-                .insert([{
-                    idDetailDistribusi: KodeStok ? parseInt(KodeStok) : null,
-                    idBarang: parseInt(formData.idBarang),
-                    qtyBarang: parseInt(formData.qtyBarang),
-                    created_at: new Date().toISOString()
-                }]);
+                .insert(rows);
             if (error) throw error;
-    
+
             Swal.fire({
                 icon: 'success',
                 title: 'Sukses',
@@ -78,35 +92,54 @@ const AddStok = () => {
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Pilih Nama Barang</label>
-                            <select
-                                name="idBarang"
-                                value={formData.idBarang}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
-                                required
-                            >
-                                <option value="">Pilih Barang</option>
-                                {barangList.map((barang) => (
-                                    <option key={barang.idBarang} value={barang.idBarang}>
-                                        {barang.namaBarang}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Jumlah Stok</label>
-                            <input
-                                type="number"
-                                name="qtyBarang"
-                                value={formData.qtyBarang}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                                min="1"
-                                required
-                            />
-                        </div>
+                        {formData.map((item, idx) => (
+                            <div className="flex gap-4 mb-4 items-end" key={idx}>
+                                <div className="flex-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Pilih Nama Barang</label>
+                                    <select
+                                        name="idBarang"
+                                        value={item.idBarang}
+                                        onChange={(e) => handleChange(idx, e)}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white"
+                                        required
+                                    >
+                                        <option value="">Pilih Barang</option>
+                                        {barangList.map((barang) => (
+                                            <option key={barang.idBarang} value={barang.idBarang}>
+                                                {barang.namaBarang}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Jumlah Stok</label>
+                                    <input
+                                        type="number"
+                                        name="qtyBarang"
+                                        value={item.qtyBarang}
+                                        onChange={(e) => handleChange(idx, e)}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                                        min="1"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveRow(idx)}
+                                    className="px-3 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors"
+                                    disabled={formData.length === 1}
+                                >
+                                    Hapus
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={handleAddRow}
+                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors mt-2"
+                        >
+                            + Tambah Barang
+                        </button>
                     </div>
                     <div className="flex justify-end gap-4">
                         <button
