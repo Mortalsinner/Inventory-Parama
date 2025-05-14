@@ -11,7 +11,7 @@ import AddBarang from './Stylist/AddBarang.jsx';
 import DetailDis from './Stylist/DetailDis.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
 
-function Home() {
+function HomeStylist() {
   useEffect(() => {
     testConnection();
   }, []);
@@ -32,7 +32,7 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeStylist;
 
      
        
