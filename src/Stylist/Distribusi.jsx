@@ -1,4 +1,3 @@
-import logo from '../logo.svg';
 import '../App.css';
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect } from 'react';
