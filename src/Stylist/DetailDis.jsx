@@ -47,14 +47,12 @@ const DetailDis = () => {
         <div className="mb-6">
           <p><b>Nama Sekolah:</b> {distribusi.namaSekolah}</p>
           <p><b>Status Pengiriman:</b> {distribusi.statusPengiriman}</p>
-          <p><b>Create By:</b> {distribusi.create_By}</p>
         </div>
       )}
       <table className="w-full border-collapse border border-gray-300 text-black">
         <thead>
           <tr className="bg-gray-900 text-white">
             <th className="border border-gray-300 p-2">Nama Barang</th>
-            <th className="border border-gray-300 p-2">Foto Barang</th>
             <th className="border border-gray-300 p-2">Qty</th>
           </tr>
         </thead>
@@ -62,9 +60,6 @@ const DetailDis = () => {
           {stokBarang.map((item, idx) => (
             <tr key={idx}>
               <td className="border border-gray-300 p-2">{barangMap[item.idBarang]?.namaBarang || '-'}</td>
-              <td className="border border-gray-300 p-2 text-center">
-                <img src={barangMap[item.idBarang]?.fotoBarang || "https://via.placeholder.com/50"} alt="Barang" className="mx-auto" width={50} />
-              </td>
               <td className="border border-gray-300 p-2 text-center">{item.qtyBarang}</td>
             </tr>
           ))}

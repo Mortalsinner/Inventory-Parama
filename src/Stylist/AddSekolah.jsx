@@ -7,8 +7,7 @@ const AddSekolah = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     namaSekolah: '',
-    statusPengiriman: '',
-    create_By: ''
+    statusPengiriman: ''
   });
 
   const handleChange = (e) => {
@@ -21,7 +20,7 @@ const AddSekolah = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.namaSekolah || !formData.statusPengiriman || !formData.create_By) {
+    if (!formData.namaSekolah || !formData.statusPengiriman) {
       Swal.fire({
         icon: 'error',
         title: 'Validasi Gagal',
@@ -35,8 +34,7 @@ const AddSekolah = () => {
         .from('Distribusi_Barang')
         .insert([{
           namaSekolah: formData.namaSekolah,
-          statusPengiriman: formData.statusPengiriman,
-          create_By: formData.create_By
+          statusPengiriman: formData.statusPengiriman
         }]);
 
       if (error) throw error;
@@ -88,17 +86,6 @@ const AddSekolah = () => {
                 <option value="">Pilih Status</option>
                 <option value="belum dikirim">Belum Dikirim</option>
               </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Create By</label>
-              <input
-                type="text"
-                name="create_By"
-                value={formData.create_By}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                required
-              />
             </div>
           </div>
           <div className="flex justify-end gap-4">

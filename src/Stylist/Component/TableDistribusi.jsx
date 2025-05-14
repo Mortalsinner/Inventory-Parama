@@ -20,7 +20,7 @@ const TableDistribusi = () => {
         try {
             const { data, error } = await supabase
                 .from('Distribusi_Barang')
-                .select('idDetailDistribusi, create_By, namaSekolah, statusPengiriman');
+                .select('idDetailDistribusi, namaSekolah, statusPengiriman');
             if (error) throw error;
             setStokData(data || []);
         } catch (error) {
@@ -102,7 +102,6 @@ const TableDistribusi = () => {
                     <tr className="bg-[#11365b] text-white">
                         <th className="p-3 font-semibold text-sm uppercase">Nama Sekolah</th>
                         <th className="p-3 font-semibold text-sm uppercase">Status Pengiriman</th>
-                        <th className="p-3 font-semibold text-sm uppercase">Create By</th>
                         <th className="p-3 font-semibold text-sm uppercase">Detail</th>
                     </tr>
                 </thead>
@@ -119,17 +118,19 @@ const TableDistribusi = () => {
                                     {item.statusPengiriman}
                                 </span>
                             </td>
-                            <td className="p-3">{item.create_By}</td>
                             <td className="p-3 text-center">
+                               
+                                
+                                <Link to={`AddStok/${item.idDetailDistribusi}`}>
+                                    <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
+                                </Link>
+                                &nbsp;
                                 <Link to={`DetailDis/${item.idDetailDistribusi}`}>
                                     <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
                                         Detail Distribusi
                                     </button>
                                 </Link>
-                                &nbsp;
-                                <Link to={`AddStok/${item.idDetailDistribusi}`}>
-                                    <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
-                                </Link>
+
                             </td>
                         </tr>
                     ))}
