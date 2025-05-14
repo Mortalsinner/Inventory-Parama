@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react
 import { useState } from 'react';
 import { supabase } from '../CreateClient';
 import Swal from 'sweetalert2';
+import Logo from '.././Asset/LogParama.jpg'
 
 const Login = () => {
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ const Login = () => {
             <div className="bg-white p-8 rounded-lg shadow-2xl w-96 transform transition-all hover:scale-105">
                 {/* Logo dan Judul */}
                 <div className="text-center mb-8">
-                    <img src="/LogParama.jpg" alt="Parama Logo" className="w-20 h-20 mx-auto mb-4 rounded-lg"/>
+                    <img src={Logo} alt="Parama Logo" className="w-20 h-20 mx-auto mb-4 rounded-lg"/>
                     <h2 className="text-2xl font-bold text-[#11365b]">Welcome Back!</h2>
                     <p className="text-gray-500 text-sm">Silakan masuk ke akun Anda</p>
                 </div>

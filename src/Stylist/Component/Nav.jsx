@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Logo from '../.././Asset/LogParama.jpg'
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Nav() {
           </button>
           <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
             <span className="text-accent">
-              <img src="/LogParama.jpg" alt="Parama Logo" className="w-14 h-14 rounded-lg"/>
+              <img src={Logo} alt="Parama Logo" className="w-14 h-14 rounded-lg"/>
             </span> Inventory
           </h2>
 
