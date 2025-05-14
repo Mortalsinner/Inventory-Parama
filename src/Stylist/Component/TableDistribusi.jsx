@@ -72,7 +72,7 @@ const TableDistribusi = () => {
     };
 
     return (
-        <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black">
+        <div className="flex-1 p-4 bg-white shadow-md rounded-lg h-screen overflow-auto text-black" style={{ overflow: "visible" }}>
             <h2 className="text-xl font-bold mb-4">Distribusi Barang ke Sekolah</h2>
             <div className="flex justify-between items-center mb-4">
                 <input
@@ -97,7 +97,7 @@ const TableDistribusi = () => {
                     </button>
                 </div>
             </div>
-            <table className="w-full border-collapse text-black bg-white rounded-lg overflow-hidden shadow-lg">
+            <table className="w-full border-collapse text-black bg-white rounded-lg overflow-hidden shadow-lg" style={{ overflow: "visible" }}>
                 <thead>
                     <tr className="bg-[#11365b] text-white">
                         <th className="p-3 font-semibold text-sm uppercase">Nama Sekolah</th>
@@ -121,15 +121,28 @@ const TableDistribusi = () => {
                             <td className="p-3 text-center">
                                
                                 
-                                <Link to={`AddStok/${item.idDetailDistribusi}`}>
-                                    <button className="px-4 py-2 bg-accent text-white rounded hover:bg-green-400 transition-colors">+ Distribusi</button>
-                                </Link>
-                                &nbsp;
-                                <Link to={`DetailDis/${item.idDetailDistribusi}`}>
-                                    <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
-                                        Detail Distribusi
+                                <div className="dropdown dropdown-end">
+                                    <button tabIndex={0} className="px-4 py-2 bg-accent text-white rounded hover:bg-accent-focus">
+                                        Actions ▼
                                     </button>
-                                </Link>
+                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li>
+                                            <Link to={`AddStok/${item.idDetailDistribusi}`}>
+                                                <span className="text-green-600">+ Distribusi</span>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`DetailDis/${item.idDetailDistribusi}`}>
+                                                <span className="text-yellow-600">Detail Distribusi</span>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={`ubahStatusDistribusi/${item.idDetailDistribusi}`}>
+                                                <span className="text-blue-600">Ubah Status Distribusi</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
 
                             </td>
                         </tr>

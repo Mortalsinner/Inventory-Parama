@@ -13,6 +13,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Route Nav masukin sini juga */}
         <Route path="/" element={<Login />} />
         <Route path="/home/*" element={<Home />} />
         <Route path="/distribusi/*" element={<Distribusi />} />

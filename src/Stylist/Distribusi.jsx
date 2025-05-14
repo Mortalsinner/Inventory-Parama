@@ -8,6 +8,7 @@ import TableDistribusi from './Component/TableDistribusi.jsx';
 import AddSekolah from './AddSekolah.jsx';
 import AddStok from './AddStok.jsx';
 import DetailDis from './DetailDis.jsx';
+import UbahStatusDistribusi from './ubahStatusDistribusi.jsx';
 
 function Distribusi() {
   useEffect(() => {
@@ -23,6 +24,7 @@ function Distribusi() {
           <Route path="AddSekolah" element={<AddSekolah />} />
           <Route path="AddStok/:KodeStok" element={<AddStok />} />
           <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
+          <Route path="UbahStatusDistribusi/:KodeStok" element={<UbahStatusDistribusi />} />
         </Routes>
       </div>
     </div>
