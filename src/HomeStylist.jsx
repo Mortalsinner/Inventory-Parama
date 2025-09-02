@@ -1,18 +1,17 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from 'react';
-import { supabase, testConnection } from './CreateClient';
+import { supabase, testConnection } from './CreateClient.jsx';
 // Import File
 import Sidenav from './Stylist/Component/Nav.jsx';
 import TableBar from './Stylist/Component/TableBar.jsx';
-import Distribusi from './Stylist/Distribusi.jsx';
+import AddSekolah from './Stylist/AddSekolah.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
-import AddDistribusi from './Stylist/AddDistribusi.jsx';
 import DetailDis from './Stylist/DetailDis.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
 
-function Home() {
+function HomeStylist() {
   useEffect(() => {
     testConnection();
   }, []);
@@ -24,16 +23,16 @@ function Home() {
         <Routes>
           <Route path="/" element={<TableBar />} />
           <Route path="AddBarang" element={<AddBarang />} />
-          <Route path="AddDistribusi" element={<AddDistribusi />} />
+          <Route path="AddSekolah" element={<AddSekolah />} />
           <Route path="DetailDis" element={<DetailDis />} />
-          <Route path="EditBarang/:id" element={<EditBarang />} />
+          <Route path="EditBarang/:idBarang" element={<EditBarang />} />
         </Routes>
       </div>
     </div>
   );
 }
 
-export default Home;
+export default HomeStylist;
 
      
        

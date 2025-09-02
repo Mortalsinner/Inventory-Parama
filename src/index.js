@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './Home';
+import Home from './HomeStylist';
 import reportWebVitals from './reportWebVitals';
 import HomeManager from './HomeManager';
 import Login from './Login/Login';
@@ -13,6 +13,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Route Nav masukin sini juga */}
         <Route path="/" element={<Login />} />
         <Route path="/home/*" element={<Home />} />
         <Route path="/distribusi/*" element={<Distribusi />} />
