@@ -94,7 +94,7 @@ const AddSekolah = () => {
               onClick={() => navigate('/distribusi')}
               className="px-6 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors"
             >
-              Batal
+              Cancel
             </button>
             <button
               type="submit"

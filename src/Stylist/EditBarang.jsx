@@ -211,7 +211,7 @@ const EditBarang = () => {
 
                     {/* Buttons */}
                     <div className="flex justify-end space-x-4 mt-6">
-                        <Link to="/">
+                        <Link to="/home">
                             <button className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
                                 Cancel
                             </button>
