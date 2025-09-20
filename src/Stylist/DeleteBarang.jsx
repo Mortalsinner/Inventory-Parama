@@ -1,12 +1,12 @@
 import { supabase } from '../CreateClient';
 
-const DeleteBarang = async (id) => {
+const DeleteBarang = async (idBarang) => {
   try {
     // Ambil path gambar
     const { data: item, error: fetchError } = await supabase
       .from('Barang')
       .select('fotoBarang')
-      .eq('id', id)
+      .eq('idBarang', idBarang)
       .single();
 
     if (fetchError) throw fetchError;
@@ -26,7 +26,7 @@ const DeleteBarang = async (id) => {
     const { error: deleteError } = await supabase
       .from('Barang')
       .delete()
-      .eq('id', id);
+      .eq('idBarang', idBarang);
 
     if (deleteError) throw deleteError;
 

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../CreateClient';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -15,6 +15,8 @@ const AddBarang = () => {
     statusBarang: ''
   });
 
+  // Menambahkan useEffect untuk rerender
+  
   const handleChange = (e) => {
     const value = e.target.type === 'file'
       ? e.target.files[0]
@@ -90,7 +92,7 @@ const AddBarang = () => {
         showConfirmButton: false,
         timer: 1500
       }).then(() => {
-        navigate('/');
+        navigate('/home');
       });
 
     } catch (error) {

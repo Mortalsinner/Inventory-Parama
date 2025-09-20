@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Outlet} from "react-router-dom";
 import { supabase } from '../../CreateClient';
 import DeleteBarang from '../DeleteBarang';
-import EditBarang from '../EditBarang';
+
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 // Update imports at the top
@@ -69,7 +69,7 @@ const TableBar = () => {
         autoTable(doc, {
             head: [["Kode", "Nama", "Kategori", "Jumlah", "Status"]],
             body: barangData.map(item => [
-                item.id,
+                item.idBarang,
                 item.namaBarang,
                 item.kategori,
                 item.JumlahBarang,
@@ -105,7 +105,7 @@ const TableBar = () => {
           className="w-50 mr-4 p-2 border border-gray-300 rounded bg-white"
         />
         <div className="flex gap-2">
-          <Link to="/AddBarang">
+          <Link to="AddBarang">
             <button className="btn btn-accent text-white">+ Add Barang</button>
           </Link>
           <button 
@@ -134,7 +134,7 @@ const TableBar = () => {
         </thead>
         <tbody>
           {displayedItems.map((item, index) => (
-            <tr key={item.id} className={`border-b border-gray-200 hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+            <tr key={item.idBarang} className={`border-b border-gray-200 hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
               <td className="p-3">
                 {item.publicUrl ? (
                   <img
@@ -152,7 +152,7 @@ const TableBar = () => {
                   </div>
                 )}
               </td>
-              <td className="p-3 font-medium">{item.id}</td>
+              <td className="p-3 font-medium">{item.idBarang}</td>
               <td className="p-3">{item.namaBarang}</td>
               <td className="p-3">
                 <span className="px-3 py-1 rounded-full text-sm bg-gray-100">{item.kategori}</span>
@@ -167,7 +167,7 @@ const TableBar = () => {
               </td>
               <td className="p-3 text-center">
                 <div className="flex justify-center gap-2">
-                  <Link to={`/EditBarang/${item.id}`}>
+                  <Link to={`/home/EditBarang/${item.idBarang}`}>
                     <button className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors">
                       Edit
                     </button>
@@ -186,9 +186,9 @@ const TableBar = () => {
                       });
 
                       if (result.isConfirmed) {
-                        const success = await DeleteBarang(item.id);
+                        const success = await DeleteBarang(item.idBarang);
                         if (success) {
-                          setBarangData(prev => prev.filter(barang => barang.id !== item.id));
+                          setBarangData(prev => prev.filter(barang => barang.idBarang !== item.idBarang));
                           Swal.fire(
                             'Deleted!',
                             'Your item has been deleted.',
@@ -234,6 +234,7 @@ const TableBar = () => {
         </button>
       </div>
     </div>
+   
   );
 };
 
