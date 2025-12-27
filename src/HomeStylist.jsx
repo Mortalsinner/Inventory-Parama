@@ -10,12 +10,13 @@ import AddSekolah from './Stylist/AddSekolah.jsx';
 import AddBarang from './Stylist/AddBarang.jsx';
 import DetailDis from './Stylist/DetailDis.jsx';
 import EditBarang from './Stylist/EditBarang.jsx';
+import PengajuanBeli from './Stylist/PengajuanBeli.jsx';
 
 function HomeStylist() {
   useEffect(() => {
     testConnection();
   }, []);
-  
+
   return (
     <div className="flex h-screen">
       <Sidenav />
@@ -26,6 +27,7 @@ function HomeStylist() {
           <Route path="AddSekolah" element={<AddSekolah />} />
           <Route path="DetailDis" element={<DetailDis />} />
           <Route path="EditBarang/:idBarang" element={<EditBarang />} />
+          <Route path="PengajuanBeli" element={<PengajuanBeli />} />
         </Routes>
       </div>
     </div>
@@ -34,6 +36,6 @@ function HomeStylist() {
 
 export default HomeStylist;
 
-     
-       
-    
+
+
+

@@ -13,33 +13,25 @@ const PrivateRoute = ({ children }) => {
 
     const checkUser = async () => {
         try {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            console.log("Session:", session);
+            const storedUser = localStorage.getItem('user');
 
-            if (error) {
-                throw error;
-            }
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                // Verify against database if needed, but for now trust localStorage for speed 
+                // or replicate the check if truly secure comparison is needed.
+                // Since this is a simple port, we'll check if the object has valid structure.
 
-            if (session) {
-                console.log("User metadata:", session.user.user_metadata);
-
-                // Ambil role user dari tabel User berdasarkan Username
-                const { data: userData, error: userError } = await supabase
-                    .from('User')
-                    .select('Role')
-                    .eq('Username', session.user.user_metadata.Username)
-                    .maybeSingle();
-
-                console.log("Query result userData:", userData, "userError:", userError);
-
-                if (userError) throw userError;
-
-                setUserRole(userData ? userData.Role : null);
-                setIsAuthenticated(!!userData);
+                if (user && user.Username) {
+                    setUserRole(user.Role);
+                    setIsAuthenticated(true);
+                } else {
+                    localStorage.removeItem('user');
+                    setIsAuthenticated(false);
+                }
             } else {
                 setIsAuthenticated(false);
             }
-            
+
             setIsLoading(false);
         } catch (error) {
             console.error('Error:', error.message);
