@@ -156,14 +156,14 @@ const DetailDis = () => {
           <div className="flex items-center gap-4">
             <div className="w-2 h-12 bg-indigo-600 rounded-full" />
             <div>
-              <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Distribution Details</h2>
-              <p className="text-sm text-slate-500 font-medium uppercase tracking-widest">{distribusi?.namaSekolah || 'Track Details'}</p>
+              <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Detail Distribusi</h2>
+              <p className="text-sm text-slate-500 font-medium uppercase tracking-widest">{distribusi?.namaSekolah || 'Detail Jalur'}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/distribusi">
               <button className="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-400 font-black text-[10px] tracking-[0.2em] hover:bg-slate-50 transition-all active:scale-95 shadow-sm">
-                BACK TO LIST
+                KEMBALI KE DAFTAR
               </button>
             </Link>
             <button
@@ -171,7 +171,7 @@ const DetailDis = () => {
               className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-black text-[10px] tracking-[0.2em] shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all active:scale-95 flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-              PRINT REPORT
+              CETAK LAPORAN
             </button>
           </div>
         </div>
@@ -183,7 +183,7 @@ const DetailDis = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Destination</p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Tujuan/Sekolah</p>
               <p className="text-sm font-bold text-slate-700">{distribusi?.namaSekolah || '-'}</p>
             </div>
           </div>
@@ -193,9 +193,9 @@ const DetailDis = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Shipping Status</p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Status Pengiriman</p>
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-100 uppercase tracking-tighter">
-                {distribusi?.statusPengiriman || 'Unknown'}
+                {distribusi?.statusPengiriman || 'Tidak Diketahui'}
               </span>
             </div>
           </div>
@@ -205,8 +205,8 @@ const DetailDis = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">PIC / Staff</p>
-              <p className="text-sm font-bold text-slate-700">{stokBarang.length > 0 ? (stokBarang[0].pic || 'Unassigned') : 'Unassigned'}</p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">PIC / Staf</p>
+              <p className="text-sm font-bold text-slate-700">{stokBarang.length > 0 ? (stokBarang[0].pic || 'Belum Ditugaskan') : 'Belum Ditugaskan'}</p>
             </div>
           </div>
         </div>
@@ -214,9 +214,9 @@ const DetailDis = () => {
         {/* Table Section */}
         <div className="bg-white rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
           <div className="p-8 border-b border-slate-50 bg-slate-50/30 flex justify-between items-center">
-            <h3 className="font-black text-slate-800 text-sm tracking-widest uppercase">Distributed Items</h3>
+            <h3 className="font-black text-slate-800 text-sm tracking-widest uppercase">Barang Terdistribusi</h3>
             <span className="text-[10px] font-black px-3 py-1 bg-slate-100 text-slate-500 rounded-full border border-slate-200">
-              {stokBarang.length} ASSETS
+              {stokBarang.length} ASET
             </span>
           </div>
 
@@ -225,8 +225,8 @@ const DetailDis = () => {
               <thead className="bg-slate-50/50 text-slate-400">
                 <tr className="border-b border-slate-50">
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Visual</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Asset Information</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Qty</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Informasi Aset</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Jumlah</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -242,12 +242,12 @@ const DetailDis = () => {
                               className="w-full h-full object-cover rounded-2xl shadow-md border-2 border-white"
                               onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = "https://via.placeholder.com/150?text=No+Image";
+                                e.target.src = "https://via.placeholder.com/150?text=Tanpa+Gambar";
                               }}
                             />
                           ) : (
                             <div className="w-full h-full bg-slate-100 rounded-2xl border-2 border-white flex items-center justify-center text-[10px] font-black text-slate-400">
-                              NO IMG
+                              TANPA FOTO
                             </div>
                           )}
                         </div>
@@ -276,7 +276,7 @@ const DetailDis = () => {
                         <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-2">
                           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                         </div>
-                        <p className="font-bold text-slate-400">No items in this distribution track.</p>
+                        <p className="font-bold text-slate-400">Belum ada barang di jalur distribusi ini.</p>
                       </div>
                     </td>
                   </tr>
@@ -287,6 +287,7 @@ const DetailDis = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

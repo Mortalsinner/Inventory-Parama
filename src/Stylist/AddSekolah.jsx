@@ -51,66 +51,76 @@ const AddSekolah = () => {
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: 'Error',
+        title: 'Kesalahan',
         text: error.message
       });
     }
   };
 
   return (
-    <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="w-2 h-10 bg-indigo-600 rounded-full" />
+    <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto custom-scrollbar">
+      <div className="max-w-2xl mx-auto py-10">
+        <div className="flex items-center gap-5 mb-12">
+          <button onClick={() => navigate('/distribusi')} className="p-4 bg-white shadow-sm border border-slate-100 rounded-2xl text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all active:scale-90 shadow-slate-200/50">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+          </button>
           <div>
-            <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Add Distribution Track</h2>
-            <p className="text-sm text-slate-500 font-medium">Create a new school distribution record</p>
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-6 bg-indigo-600 rounded-full" />
+              <h2 className="text-3xl font-black text-slate-800 tracking-tight">Tambah Jalur Distribusi</h2>
+            </div>
+            <p className="text-sm text-slate-500 font-medium ml-4 mt-1">Buat rekaman distribusi sekolah baru</p>
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-white/40">
-          <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-white/40">
+          <form onSubmit={handleSubmit} className="space-y-10">
             <div>
-              <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 px-1">School / Institution Name</label>
+              <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 ml-1">Nama Resmi Sekolah</label>
               <input
                 type="text"
                 name="namaSekolah"
                 value={formData.namaSekolah}
                 onChange={handleChange}
-                className="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300"
-                placeholder="e.g. SMK Negeri 1 Jakarta"
+                className="w-full px-7 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300 shadow-sm"
+                placeholder="misal: SMK Negeri 1 Jakarta"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 px-1">Initial Status</label>
-              <select
-                name="statusPengiriman"
-                value={formData.statusPengiriman}
-                onChange={handleChange}
-                className="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M19%209l-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_1.5rem_center] bg-no-repeat appearance-none"
-                required
-              >
-                <option value="">Select Status...</option>
-                <option value="belum dikirim">Not Yet Shipped</option>
-              </select>
+              <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 ml-1">Tahap Pengiriman Awal</label>
+              <div className="relative">
+                <select
+                  name="statusPengiriman"
+                  value={formData.statusPengiriman}
+                  onChange={handleChange}
+                  className="w-full px-7 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 appearance-none cursor-pointer shadow-sm"
+                  required
+                >
+                  <option value="">Pilih Status Awal...</option>
+                  <option value="belum dikirim">Belum Dikirim (Menunggu)</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center px-5 pointer-events-none text-slate-400">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                </div>
+              </div>
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-5 pt-8 border-t border-slate-100">
               <button
                 type="button"
                 onClick={() => navigate('/distribusi')}
-                className="flex-1 py-5 px-6 rounded-2xl text-slate-400 font-black text-xs tracking-[0.2em] border-2 border-slate-100 hover:bg-slate-50 transition-all active:scale-95"
+                className="flex-1 py-5 px-6 rounded-[1.5rem] text-slate-400 font-black text-xs tracking-[0.2em] border border-slate-100 hover:bg-slate-50 hover:text-rose-500 transition-all active:scale-95"
               >
-                CANCEL
+                BATALKAN ENTRI
               </button>
               <button
                 type="submit"
-                className="flex-[2] py-5 px-6 rounded-2xl text-white font-black text-xs tracking-[0.2em] bg-gradient-to-r from-indigo-600 to-blue-600 shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all active:scale-95 flex justify-center items-center gap-3"
+                className="flex-[2] py-5 px-6 rounded-[1.5rem] text-white font-black text-xs tracking-[0.2em] bg-indigo-600 shadow-2xl shadow-indigo-600/30 hover:bg-indigo-700 transition-all active:scale-95 flex justify-center items-center gap-3"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                CREATE RECORD
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                BUAT REKAMAN JALUR
               </button>
             </div>
           </form>

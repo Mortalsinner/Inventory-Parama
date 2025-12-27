@@ -91,89 +91,102 @@ const AddStok = () => {
         } catch (error) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
+                title: 'Kesalahan',
                 text: error.message
             });
         }
     };
 
     return (
-        <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto">
-            <div className="max-w-3xl mx-auto">
-                <div className="flex items-center gap-4 mb-10">
-                    <div className="w-2 h-10 bg-emerald-500 rounded-full" />
+        <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto custom-scrollbar">
+            <div className="max-w-3xl mx-auto py-10">
+                <div className="flex items-center gap-5 mb-12">
+                    <button onClick={() => navigate('/distribusi')} className="p-4 bg-white shadow-sm border border-slate-100 rounded-2xl text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all active:scale-90 shadow-slate-200/50">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
                     <div>
-                        <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Add Distribution Stock</h2>
-                        <p className="text-sm text-slate-500 font-medium">Assign items to specific distribution tracks</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-6 bg-indigo-600 rounded-full" />
+                            <h2 className="text-3xl font-black text-slate-800 tracking-tight">Tambah Stok Distribusi</h2>
+                        </div>
+                        <p className="text-sm text-slate-500 font-medium ml-4 mt-1">Alokasikan barang ke jalur distribusi tertentu</p>
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-10">
                     {/* PIC Header Card */}
-                    <div className="bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-white/40">
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    <div className="bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-white/40">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center ring-1 ring-indigo-100/50">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             </div>
-                            <h3 className="text-xl font-black text-slate-800 tracking-tight uppercase">Responsible Person</h3>
+                            <div>
+                                <h3 className="text-lg font-black text-slate-800 tracking-tight uppercase">Penanggung Jawab</h3>
+                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest leading-none mt-0.5">Kontak utama untuk batch ini</p>
+                            </div>
                         </div>
                         <div>
-                            <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">PIC Name</label>
+                            <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Nama Lengkap PIC</label>
                             <input
                                 type="text"
                                 value={pic}
                                 onChange={(e) => setPic(e.target.value)}
-                                className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-700 placeholder:text-slate-300"
-                                placeholder="Enter PIC Name"
+                                className="w-full px-7 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300 shadow-sm"
+                                placeholder="Masukkan Nama PIC"
                                 required
                             />
                         </div>
                     </div>
 
                     {/* Items List */}
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         <div className="flex justify-between items-center px-4">
-                            <h3 className="text-xs font-black text-slate-400 tracking-[0.2em] uppercase">Items to Distribute</h3>
-                            <span className="text-[10px] font-black px-2 py-0.5 bg-slate-200 text-slate-500 rounded-md">{formData.length} BATCHES</span>
+                            <h3 className="text-[11px] font-black text-slate-400 tracking-[0.3em] uppercase">Barang yang Didistribusikan</h3>
+                            <span className="text-[10px] font-black px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full ring-1 ring-indigo-100">{formData.length} BATCH</span>
                         </div>
 
                         {formData.map((item, idx) => (
-                            <div className="bg-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-100 relative group animate-in fade-in slide-in-from-bottom-4 duration-500" key={idx}>
+                            <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 relative group animate-in fade-in slide-in-from-bottom-4 duration-500" key={idx}>
                                 {formData.length > 1 && (
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveRow(idx)}
-                                        className="absolute -top-2 -right-2 w-8 h-8 bg-rose-500 text-white rounded-full shadow-lg shadow-rose-500/30 flex items-center justify-center hover:bg-rose-600 transition-all active:scale-90 z-10"
+                                        className="absolute -top-3 -right-3 w-10 h-10 bg-white border border-slate-100 text-rose-500 rounded-2xl shadow-xl flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all active:scale-90 z-10"
                                     >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 )}
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
                                     <div className="md:col-span-8">
-                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Select Asset</label>
-                                        <select
-                                            name="idBarang"
-                                            value={item.idBarang}
-                                            onChange={(e) => handleChange(idx, e)}
-                                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M19%209l-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_1.25rem_center] bg-no-repeat appearance-none"
-                                            required
-                                        >
-                                            <option value="">Choose Asset...</option>
-                                            {barangList.map((barang) => (
-                                                <option key={barang.idBarang} value={barang.idBarang}>
-                                                    {barang.namaBarang}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Aset Target</label>
+                                        <div className="relative">
+                                            <select
+                                                name="idBarang"
+                                                value={item.idBarang}
+                                                onChange={(e) => handleChange(idx, e)}
+                                                className="w-full px-7 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 appearance-none cursor-pointer shadow-sm"
+                                                required
+                                            >
+                                                <option value="">Pilih Aset...</option>
+                                                {barangList.map((barang) => (
+                                                    <option key={barang.idBarang} value={barang.idBarang}>
+                                                        {barang.namaBarang}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute inset-y-0 right-0 flex items-center px-5 pointer-events-none text-slate-400">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="md:col-span-4">
-                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Quantity</label>
+                                        <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Jumlah</label>
                                         <input
                                             type="number"
                                             name="qtyBarang"
                                             value={item.qtyBarang}
                                             onChange={(e) => handleChange(idx, e)}
-                                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-700 placeholder:text-slate-300"
+                                            className="w-full px-7 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300 shadow-sm"
                                             min="1"
                                             placeholder="0"
                                             required
@@ -186,27 +199,29 @@ const AddStok = () => {
                         <button
                             type="button"
                             onClick={handleAddRow}
-                            className="w-full py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold text-xs tracking-widest hover:border-emerald-400 hover:text-emerald-500 hover:bg-emerald-50 transition-all flex items-center justify-center gap-2 group"
+                            className="w-full py-6 border-2 border-dashed border-slate-200 rounded-[2rem] text-slate-400 font-black text-xs tracking-[0.2em] hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/30 transition-all flex items-center justify-center gap-3 group bg-white shadow-sm"
                         >
-                            <svg className="w-5 h-5 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                            ADD ANOTHER ASSET
+                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all group-hover:rotate-90">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                            </div>
+                            TAMBAH BATCH ASET LAIN
                         </button>
                     </div>
 
-                    <div className="flex gap-4 pt-6">
+                    <div className="flex flex-col sm:flex-row gap-5 pt-8 border-t border-slate-100">
                         <button
                             type="button"
                             onClick={() => navigate('/distribusi')}
-                            className="flex-1 py-4 px-6 rounded-2xl text-slate-400 font-black text-xs tracking-[0.2em] border-2 border-slate-100 hover:bg-slate-50 transition-all active:scale-95"
+                            className="flex-1 py-5 px-6 rounded-[1.5rem] text-slate-400 font-black text-xs tracking-[0.2em] border border-slate-100 hover:bg-slate-50 hover:text-rose-500 transition-all active:scale-95"
                         >
-                            CANCEL
+                            BATALKAN ENTRI
                         </button>
                         <button
                             type="submit"
-                            className="flex-[2] py-4 px-6 rounded-2xl text-white font-black text-xs tracking-[0.2em] bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all active:scale-95 flex justify-center items-center gap-3"
+                            className="flex-[2] py-5 px-6 rounded-[1.5rem] text-white font-black text-xs tracking-[0.2em] bg-indigo-600 shadow-2xl shadow-indigo-600/30 hover:bg-indigo-700 transition-all active:scale-95 flex justify-center items-center gap-3"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                            SAVE DISTRIBUTION
+                            SIMPAN DISTRIBUSI
                         </button>
                     </div>
                 </form>

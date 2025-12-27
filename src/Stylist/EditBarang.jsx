@@ -42,8 +42,8 @@ const EditBarang = () => {
             console.error('Error fetching barang:', error);
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'Error fetching barang details'
+                title: 'Kesalahan',
+                text: 'Gagal mengambil detail barang'
             });
         }
     };
@@ -68,7 +68,7 @@ const EditBarang = () => {
                 !formData.kategori) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Validation Error',
+                    title: 'Kesalahan Validasi',
                     text: 'Mohon isi semua field yang diperlukan!'
                 });
                 return;
@@ -115,8 +115,8 @@ const EditBarang = () => {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Success',
-                text: 'Data berhasil diupdate!',
+                title: 'Berhasil',
+                text: 'Data berhasil diperbarui!',
                 timer: 1500,
                 showConfirmButton: false
             }).then(() => {
@@ -126,20 +126,25 @@ const EditBarang = () => {
             console.error('Error updating data:', error);
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'Gagal mengupdate data: ' + error.message
+                title: 'Kesalahan',
+                text: 'Gagal memperbarui data: ' + error.message
             });
         }
     };
 
     return (
-        <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center gap-4 mb-10">
-                    <div className="w-2 h-10 bg-orange-500 rounded-full" />
+        <div className="flex-1 p-8 bg-slate-50 min-h-screen overflow-auto custom-scrollbar">
+            <div className="max-w-4xl mx-auto py-10">
+                <div className="flex items-center gap-5 mb-12">
+                    <Link to="/home" className="p-4 bg-white shadow-sm border border-slate-100 rounded-2xl text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all active:scale-90 shadow-slate-200/50">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                    </Link>
                     <div>
-                        <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Modify Asset</h2>
-                        <p className="text-sm text-slate-500 font-medium">Update existing inventory information</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-6 bg-indigo-600 rounded-full" />
+                            <h2 className="text-3xl font-black text-slate-800 tracking-tight">Ubah Aset</h2>
+                        </div>
+                        <p className="text-sm text-slate-500 font-medium ml-4 mt-1">Perbarui informasi inventaris yang ada</p>
                     </div>
                 </div>
 
@@ -150,9 +155,9 @@ const EditBarang = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                             {/* Left Side: Photo Upload */}
                             <div className="space-y-6">
-                                <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Asset Visualization</label>
+                                <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 ml-1">Visualisasi Aset</label>
                                 <div className="relative group">
-                                    <div className="w-full h-64 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden transition-all group-hover:bg-slate-100 group-hover:border-orange-300">
+                                    <div className="w-full h-72 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 group-hover:bg-indigo-50/30 group-hover:border-indigo-200 transform group-hover:scale-[1.01]">
                                         <input
                                             type="file"
                                             name="fotoBarang"
@@ -160,84 +165,96 @@ const EditBarang = () => {
                                             accept="image/*"
                                             className="absolute inset-0 opacity-0 cursor-pointer z-10"
                                         />
-                                        <div className="flex flex-col items-center text-slate-400 group-hover:text-orange-500 transition-colors">
-                                            <svg className="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                            <span className="text-xs font-bold tracking-widest uppercase">Update Photo</span>
+                                        <div className="flex flex-col items-center text-slate-400 group-hover:text-indigo-500 transition-all duration-500">
+                                            <div className="p-5 bg-white rounded-2xl shadow-sm mb-4 group-hover:scale-110 transition-transform duration-500 ring-1 ring-slate-100 group-hover:ring-indigo-100">
+                                                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <span className="text-xs font-black tracking-widest uppercase">Perbarui Foto Aset</span>
                                         </div>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-3 px-2 font-medium">Support: JPG, PNG, WEBP (Max 2MB)</p>
+                                    <p className="text-[10px] text-slate-400 mt-4 px-2 font-black uppercase tracking-widest">Mendukung: JPG, PNG, WEBP (Maks 2MB)</p>
                                 </div>
                             </div>
 
                             {/* Right Side: Form Fields */}
-                            <div className="space-y-6">
+                            <div className="space-y-8">
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Asset Name</label>
+                                    <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Nama Resmi Aset</label>
                                     <input
                                         type="text"
                                         name="namaBarang"
                                         value={formData.namaBarang}
                                         onChange={handleChange}
-                                        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all font-bold text-slate-700 placeholder:text-slate-300"
-                                        placeholder="Enter item name..."
+                                        className="w-full px-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300 shadow-sm"
+                                        placeholder="Masukkan nama barang..."
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Quantity</label>
+                                        <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Stok Saat Ini</label>
                                         <input
                                             type="number"
                                             name="JumlahBarang"
                                             value={formData.JumlahBarang}
                                             onChange={handleChange}
-                                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all font-bold text-slate-700 placeholder:text-slate-300"
+                                            className="w-full px-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 placeholder:text-slate-300 shadow-sm"
                                             placeholder="0"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Status</label>
-                                        <select
-                                            name="statusBarang"
-                                            value={formData.statusBarang}
-                                            onChange={handleChange}
-                                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M19%209l-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_1.25rem_center] bg-no-repeat appearance-none"
-                                        >
-                                            <option value="">Status...</option>
-                                            <option value="Normal">Normal</option>
-                                            <option value="Rusak">Rusak</option>
-                                        </select>
+                                        <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Status Operasional</label>
+                                        <div className="relative">
+                                            <select
+                                                name="statusBarang"
+                                                value={formData.statusBarang}
+                                                onChange={handleChange}
+                                                className="w-full px-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 appearance-none cursor-pointer shadow-sm"
+                                            >
+                                                <option value="">Status...</option>
+                                                <option value="Normal">Berfungsi Baik</option>
+                                                <option value="Rusak">Rusak</option>
+                                            </select>
+                                            <div className="absolute inset-y-0 right-0 flex items-center px-5 pointer-events-none text-slate-400">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2 px-1">Category</label>
-                                    <select
-                                        name="kategori"
-                                        value={formData.kategori}
-                                        onChange={handleChange}
-                                        className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all font-bold text-slate-700 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22M19%209l-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_1.25rem_center] bg-no-repeat appearance-none"
-                                    >
-                                        <option value="">Choose category...</option>
-                                        <option value="Properti">Properti</option>
-                                        <option value="Gear">Gear</option>
-                                    </select>
+                                    <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Kategori Peralatan</label>
+                                    <div className="relative">
+                                        <select
+                                            name="kategori"
+                                            value={formData.kategori}
+                                            onChange={handleChange}
+                                            className="w-full px-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-bold text-slate-700 appearance-none cursor-pointer shadow-sm"
+                                        >
+                                            <option value="">Pilih kategori...</option>
+                                            <option value="Properti">Properti Studio</option>
+                                            <option value="Gear">Peralatan Produksi</option>
+                                        </select>
+                                        <div className="absolute inset-y-0 right-0 flex items-center px-5 pointer-events-none text-slate-400">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-50">
+                        <div className="flex flex-col sm:flex-row gap-5 pt-8 border-t border-slate-100">
                             <Link to="/home" className="flex-1">
-                                <button className="w-full py-5 px-6 rounded-2xl text-slate-400 font-black text-xs tracking-[0.2em] border-2 border-slate-100 hover:bg-slate-50 transition-all active:scale-95">
-                                    DISCARD CHANGES
+                                <button className="w-full py-5 px-6 rounded-[1.5rem] text-slate-400 font-black text-xs tracking-[0.2em] border border-slate-100 hover:bg-slate-50 hover:text-rose-500 transition-all active:scale-95">
+                                    BATALKAN PERUBAHAN
                                 </button>
                             </Link>
                             <button
                                 type="submit"
-                                className="flex-[2] py-5 px-6 rounded-2xl text-white font-black text-xs tracking-[0.2em] bg-gradient-to-r from-orange-500 to-amber-500 shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 transition-all active:scale-95 flex justify-center items-center gap-3"
+                                className="flex-[2] py-5 px-6 rounded-[1.5rem] text-white font-black text-xs tracking-[0.2em] bg-indigo-600 shadow-2xl shadow-indigo-600/30 hover:bg-indigo-700 transition-all active:scale-95 flex justify-center items-center gap-3"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                                UPDATE ASSET
+                                PERBARUI ASET
                             </button>
                         </div>
                     </form>

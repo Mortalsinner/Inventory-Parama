@@ -35,7 +35,7 @@ export default function Nav() {
   const navItems = [
     {
       path: "/home",
-      label: "List Barang",
+      label: "Daftar Barang",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -105,7 +105,7 @@ export default function Nav() {
 
           {/* Navigation Links */}
           <nav className="mt-2">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 px-4">Main Menu</p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 px-4">Menu Utama</p>
             <ul className="space-y-1.5">
               {navItems.map((item) => {
                 const highlight = isActive(item.path);
@@ -166,7 +166,7 @@ export default function Nav() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-              SIGN OUT
+              KELUAR SISTEM
             </button>
           </div>
 
