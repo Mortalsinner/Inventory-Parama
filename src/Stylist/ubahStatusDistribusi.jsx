@@ -8,9 +8,19 @@ const UbahStatusDistribusi = () => {
   const navigate = useNavigate();
   const [statusPengiriman, setStatusPengiriman] = useState('');
   const [loading, setLoading] = useState(true);
-  const [fotoBukti, setFotoBukti] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [fotoBuktiUrl, setFotoBuktiUrl] = useState(null);
+
+  // States for 3 different proofs
+  const [photos, setPhotos] = useState({
+    dikirim: null,
+    diterima: null,
+    kembali: null
+  });
+  const [photoUrls, setPhotoUrls] = useState({
+    dikirim: null,
+    diterima: null,
+    kembali: null
+  });
 
   useEffect(() => {
     const fetchDistribusi = async () => {
@@ -21,16 +31,28 @@ const UbahStatusDistribusi = () => {
         .single();
       if (!error && data) {
         setStatusPengiriman(data.statusPengiriman || '');
-        setFotoBuktiUrl(data.fotoBukti || null);
+        if (data.fotoBukti) {
+          try {
+            const parsed = JSON.parse(data.fotoBukti);
+            setPhotoUrls({
+              dikirim: parsed.dikirim || null,
+              diterima: parsed.diterima || null,
+              kembali: parsed.kembali || null
+            });
+          } catch (e) {
+            // Fallback if it's still a single string URL
+            setPhotoUrls(prev => ({ ...prev, dikirim: data.fotoBukti }));
+          }
+        }
       }
       setLoading(false);
     };
     fetchDistribusi();
   }, [KodeStok]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (stage, e) => {
     if (e.target.files && e.target.files[0]) {
-      setFotoBukti(e.target.files[0]);
+      setPhotos(prev => ({ ...prev, [stage]: e.target.files[0] }));
     }
   };
 
@@ -45,37 +67,37 @@ const UbahStatusDistribusi = () => {
       return;
     }
     setUploading(true);
-    let fotoBuktiUrl = null;
+    let newUrls = { ...photoUrls };
 
     try {
-      // Upload foto jika ada file yang dipilih
-      if (fotoBukti) {
-        const fileExt = fotoBukti.name.split('.').pop();
-        const fileName = `bukti_${KodeStok}_${Date.now()}.${fileExt}`;
-        const { data: uploadData, error: uploadError } = await supabase
-          .storage
-          .from('fotobukti')
-          .upload(fileName, fotoBukti, {
-            cacheControl: '3600',
-            upsert: false
-          });
-        if (uploadError) throw uploadError;
-        // Dapatkan public URL
-        const { data: publicUrlData } = supabase
-          .storage
-          .from('fotobukti')
-          .getPublicUrl(fileName);
-        fotoBuktiUrl = publicUrlData.publicUrl;
+      // Upload each of the 3 photos if selected
+      const stages = ['dikirim', 'diterima', 'kembali'];
+      for (const stage of stages) {
+        if (photos[stage]) {
+          const fileExt = photos[stage].name.split('.').pop();
+          const fileName = `bukti_${stage}_${KodeStok}_${Date.now()}.${fileExt}`;
+          const { error: uploadError } = await supabase
+            .storage
+            .from('fotobukti')
+            .upload(fileName, photos[stage], { cacheControl: '3600', upsert: false });
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabase
+            .storage
+            .from('fotobukti')
+            .getPublicUrl(fileName);
+
+          newUrls[stage] = publicUrlData.publicUrl;
+        }
       }
 
-      // Update statusPengiriman dan fotoBukti di database
       const { error } = await supabase
         .from('Distribusi_Barang')
-        .update(
-          fotoBuktiUrl
-            ? { statusPengiriman, fotoBukti: fotoBuktiUrl }
-            : { statusPengiriman }
-        )
+        .update({
+          statusPengiriman,
+          fotoBukti: JSON.stringify(newUrls)
+        })
         .eq('idDetailDistribusi', KodeStok);
       if (error) throw error;
 
@@ -124,23 +146,76 @@ const UbahStatusDistribusi = () => {
         </div>
 
         <div className="bg-white/80 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-white/40">
-          <form onSubmit={handleSubmit} className="space-y-10">
-            <div className="flex flex-col items-center gap-6 p-8 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
-              <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] self-start ml-1">Foto Bukti Saat Ini</label>
-              {fotoBuktiUrl ? (
-                <div className="relative group">
-                  <img src={fotoBuktiUrl} alt="Foto Bukti" className="w-48 h-48 object-cover rounded-[2rem] shadow-xl border-4 border-white transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 rounded-[2rem] bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              ) : (
-                <div className="w-48 h-48 rounded-[2rem] bg-slate-100 flex flex-col items-center justify-center gap-3 text-slate-400 border-2 border-dashed border-slate-200">
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  <span className="text-[10px] font-black uppercase tracking-widest">Tidak ada foto</span>
-                </div>
-              )}
+          <form onSubmit={handleSubmit} className="space-y-12">
+
+            {/* Visual Delivery Tracker */}
+            <div className="grid grid-cols-3 gap-4 mb-12">
+              {[
+                { id: 'dikirim', label: 'Dikirim', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_sent_icon_1766902837060.png' },
+                { id: 'diterima', label: 'Sekolah', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_school_icon_1766902851401.png' },
+                { id: 'kembali', label: 'Kantor', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_office_icon_1766902867559.png' }
+              ].map((stage, i) => {
+                const isActive = statusPengiriman === stage.id || (stage.id === 'diterima' && statusPengiriman === 'diterima');
+                // Simple logic for highlighting path
+                const isPrevious = (stage.id === 'dikirim' && (statusPengiriman === 'diterima' || statusPengiriman === 'kembali')) ||
+                  (stage.id === 'diterima' && statusPengiriman === 'kembali');
+
+                return (
+                  <div key={stage.id} className="relative flex flex-col items-center group">
+                    {i < 2 && (
+                      <div className={`absolute top-10 left-[60%] w-[80%] h-1 rounded-full z-0 transition-colors duration-500 ${isPrevious ? 'bg-indigo-500' : 'bg-slate-100'}`} />
+                    )}
+                    <div className={`w-20 h-20 rounded-3xl z-10 flex items-center justify-center transition-all duration-500 ${isActive ? 'bg-indigo-600 shadow-xl shadow-indigo-600/30 scale-110' : isPrevious ? 'bg-indigo-100' : 'bg-slate-50 border border-slate-100'}`}>
+                      <img src={stage.icon} alt={stage.label} className={`w-12 h-12 object-contain transition-all duration-500 ${isActive ? 'brightness-110' : 'grayscale opacity-50'}`} />
+                    </div>
+                    <span className={`mt-4 text-[10px] font-black uppercase tracking-widest transition-colors duration-500 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`}>{stage.label}</span>
+                  </div>
+                );
+              })}
             </div>
 
+            {/* Photo Evidence Slots */}
             <div className="space-y-8">
+              <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Dokumentasi Bukti (3 Tahap)</label>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { id: 'dikirim', label: 'Saat Dikirim' },
+                  { id: 'diterima', label: 'Sampai Sekolah' },
+                  { id: 'kembali', label: 'Kembali/Selesai' }
+                ].map((slot) => (
+                  <div key={slot.id} className="space-y-4">
+                    <div className="relative group">
+                      {photoUrls[slot.id] ? (
+                        <div className="relative aspect-square rounded-3xl overflow-hidden border-4 border-white shadow-lg">
+                          <img src={photoUrls[slot.id]} alt={slot.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <div className="absolute inset-0 bg-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="bg-white text-indigo-600 px-3 py-1 rounded-full text-[9px] font-bold">GANTI FOTO</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="aspect-square rounded-3xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 text-slate-300 group-hover:border-indigo-200 group-hover:bg-indigo-50/30 transition-all">
+                          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                          <span className="text-[8px] font-black uppercase tracking-tighter">BELUM ADA FOTO</span>
+                        </div>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileChange(slot.id, e)}
+                        className="absolute inset-0 opacity-0 cursor-pointer z-20"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{slot.label}</p>
+                      {photos[slot.id] && <p className="text-[8px] text-indigo-500 font-bold mt-1 truncate px-2">{photos[slot.id].name}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-8 pt-6 border-t border-slate-100">
               <div>
                 <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 ml-1">Status Pengiriman</label>
                 <div className="relative">
@@ -155,28 +230,16 @@ const UbahStatusDistribusi = () => {
                     <option value="belum dikirim">Belum Dikirim</option>
                     <option value="dikirim">Dikirim ke Lokasi</option>
                     <option value="diterima">Telah Diterima Sekolah</option>
+                    <option value="kembali">Kembali Ke Kantor</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-5 pointer-events-none text-slate-400">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
                   </div>
                 </div>
               </div>
-
-              <div>
-                <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-4 ml-1">Unggah Bukti Baru (Opsional)</label>
-                <div className="flex items-center justify-center w-full">
-                  <label className="w-full h-24 flex flex-col items-center justify-center px-4 py-6 bg-slate-50 text-slate-400 rounded-2xl border-2 border-dashed border-slate-200 cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-500 transition-all">
-                    <div className="flex items-center gap-3">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                      <span className="font-bold text-sm">{fotoBukti ? fotoBukti.name : "Pilih file gambar..."}</span>
-                    </div>
-                    <input type='file' className="hidden" accept="image/*" onChange={handleFileChange} />
-                  </label>
-                </div>
-              </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-5 pt-8 border-t border-slate-100">
+            <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <button
                 type="button"
                 onClick={() => navigate('/distribusi')}

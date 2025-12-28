@@ -176,7 +176,7 @@ const DetailDis = () => {
           </div>
         </div>
 
-        {/* Info Card */}
+        {/* Info Card Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl border border-white/40 flex items-center gap-5">
             <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
@@ -193,7 +193,7 @@ const DetailDis = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Status Pengiriman</p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Status Saat Ini</p>
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-100 uppercase tracking-tighter">
                 {distribusi?.statusPengiriman || 'Tidak Diketahui'}
               </span>
@@ -208,6 +208,52 @@ const DetailDis = () => {
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">PIC / Staf</p>
               <p className="text-sm font-bold text-slate-700">{stokBarang.length > 0 ? (stokBarang[0].pic || 'Belum Ditugaskan') : 'Belum Ditugaskan'}</p>
             </div>
+          </div>
+        </div>
+
+        {/* Delivery Evidence Section */}
+        <div className="bg-white/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-white/40 mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-1.5 h-6 bg-indigo-600 rounded-full" />
+            <h3 className="text-[11px] font-black uppercase text-slate-400 tracking-[0.2em]">Dokumentasi Bukti Pengiriman</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { id: 'dikirim', label: 'Barang Dikirim', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_sent_icon_1766902837060.png' },
+              { id: 'diterima', label: 'Sampai Sekolah', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_school_icon_1766902851401.png' },
+              { id: 'kembali', label: 'Kembali Ke Kantor', icon: '/Users/carlo/.gemini/antigravity/brain/a8357e54-3320-4849-96fb-ba891d1039f9/delivery_office_icon_1766902867559.png' }
+            ].map((stage) => {
+              let photoUrl = null;
+              if (distribusi?.fotoBukti) {
+                try {
+                  const parsed = JSON.parse(distribusi.fotoBukti);
+                  photoUrl = parsed[stage.id];
+                } catch (e) {
+                  // Compatibility for old string format
+                  if (stage.id === 'dikirim') photoUrl = distribusi.fotoBukti;
+                }
+              }
+
+              return (
+                <div key={stage.id} className="flex flex-col items-center">
+                  <div className="relative w-full aspect-square rounded-[2.5rem] bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-4">
+                    {photoUrl ? (
+                      <img src={photoUrl} alt={stage.label} className="w-full h-full object-cover rounded-[2rem] shadow-lg border-2 border-white" />
+                    ) : (
+                      <div className="flex flex-col items-center gap-3 opacity-20">
+                        <img src={stage.icon} alt="Icon" className="w-16 h-16 grayscale" />
+                        <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Belum Ada Bukti</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4 flex flex-col items-center">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{stage.label}</span>
+                    {photoUrl && <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-black tracking-tighter border border-emerald-100">TERSEDIA</span>}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

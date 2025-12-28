@@ -143,7 +143,7 @@ const Login = () => {
                     <div className="mt-12 text-center">
                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-relaxed">
                             © {new Date().getFullYear()} Parama Kreatif House<br />
-                            <span className="text-indigo-500/50">Inventory Management System v2.0</span>
+
                         </p>
                     </div>
                 </div>

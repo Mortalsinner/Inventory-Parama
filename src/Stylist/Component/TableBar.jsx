@@ -170,7 +170,7 @@ const TableBar = () => {
           <table className="w-full text-left border-collapse">
             <thead className="bg-slate-50/50 text-slate-500 sticky top-0 z-10 backdrop-blur-md">
               <tr className="border-b border-slate-100">
-                <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-[0.2em] w-28">Pratinjau</th>
+                <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-[0.2em] w-28">Gambar</th>
                 <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-[0.2em]">Kode</th>
                 <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-[0.2em]">Nama Barang</th>
                 <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-[0.2em]">Kategori</th>

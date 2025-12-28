@@ -10,7 +10,7 @@ const AddBarang = () => {
   const [formData, setFormData] = useState({
     fotoBarang: null,
     namaBarang: '',
-    JumlahBarang: '',
+    jumlahBarang: '',
     kategori: '',
     statusBarang: ''
   });

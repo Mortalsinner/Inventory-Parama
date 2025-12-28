@@ -15,7 +15,7 @@ const AddStok = () => {
         const fetchBarang = async () => {
             const { data, error } = await supabase
                 .from('Barang')
-                .select('idBarang, namaBarang');
+                .select('idBarang, namaBarang, JumlahBarang');
             if (!error && data) {
                 setBarangList(data);
             }
@@ -52,13 +52,24 @@ const AddStok = () => {
             return;
         }
 
-        // Validasi semua input
+        // Validasi semua input dan stok
         for (let i = 0; i < formData.length; i++) {
-            if (!formData[i].idBarang || !formData[i].qtyBarang) {
+            const item = formData[i];
+            if (!item.idBarang || !item.qtyBarang) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
                     text: 'Nama Barang dan Jumlah wajib diisi di semua baris!'
+                });
+                return;
+            }
+
+            const barang = barangList.find(b => b.idBarang === parseInt(item.idBarang));
+            if (barang && parseInt(item.qtyBarang) > barang.JumlahBarang) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Stok Tidak Mencukupi',
+                    text: `Jumlah untuk ${barang.namaBarang} melebihi stok tersedia (${barang.JumlahBarang})!`
                 });
                 return;
             }
@@ -69,7 +80,6 @@ const AddStok = () => {
             const rows = formData.map(item => ({
                 idDetailDistribusi: KodeStok ? parseInt(KodeStok) : null,
                 idBarang: parseInt(item.idBarang),
-                qtyBarang: parseInt(item.qtyBarang),
                 qtyBarang: parseInt(item.qtyBarang),
                 pic: pic,
                 created_at: new Date().toISOString()
@@ -180,7 +190,14 @@ const AddStok = () => {
                                         </div>
                                     </div>
                                     <div className="md:col-span-4">
-                                        <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em] mb-3 ml-1">Jumlah</label>
+                                        <div className="flex justify-between items-center mb-3 ml-1">
+                                            <label className="block text-[11px] font-black uppercase text-slate-400 tracking-[0.2em]">Jumlah</label>
+                                            {item.idBarang && (
+                                                <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md ring-1 ring-indigo-100">
+                                                    STOK: {barangList.find(b => b.idBarang === parseInt(item.idBarang))?.JumlahBarang || 0}
+                                                </span>
+                                            )}
+                                        </div>
                                         <input
                                             type="number"
                                             name="qtyBarang"

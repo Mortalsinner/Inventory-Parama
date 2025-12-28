@@ -193,7 +193,9 @@ const TableDistribusi = () => {
                                                 ? 'bg-amber-50 text-amber-700 border-amber-100'
                                                 : item.statusPengiriman === 'diterima'
                                                     ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
-                                                    : 'bg-rose-50 text-rose-700 border-rose-100'
+                                                    : item.statusPengiriman === 'kembali'
+                                                        ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                        : 'bg-rose-50 text-rose-700 border-rose-100'
                                                 }`}>
                                                 {item.statusPengiriman}
                                             </span>
