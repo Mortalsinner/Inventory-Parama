@@ -33,7 +33,7 @@ root.render(
           }
         />
         <Route
-          path="/manager"
+          path="/manager/*"
           element={
             <PrivateRoute>
               <HomeManager />

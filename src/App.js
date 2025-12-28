@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import './App.css';
 
 // Import File
@@ -17,27 +17,25 @@ import UbahStatusDistribusi from './Stylist/ubahStatusDistribusi.jsx';
 
 function App() {
   return (
-    <Router>
-      <div className="flex h-screen">
-        <Sidenav />
-        <div className="flex-1 p-4 overflow-auto lg:ml-6">
-          <Routes>
-            <Route path="/home/*" element={<TableBar />} />
-            <Route path="/distribusi/*" element={<TableDistribusi />} />
-            {/* Inventory */}
-            <Route path="AddBarang" element={<AddBarang />} />
-            <Route path="CreateClient" element={<CreateClient />} />
-            <Route path="EditBarang/:idBarang" element={<EditBarang />} />
-            {/* Distribusi */}
-            <Route path="AddDistribusi" element={<AddDistribusi />} />
-            <Route path="AddSekolah" element={<AddSekolah />} />
-            <Route path="AddStok/:KodeStok" element={<AddStok />} />
-            <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
-            <Route path="UbahStatusDistribusi/:KodeStok" element={<UbahStatusDistribusi />} />
-          </Routes>
-        </div>
+    <div className="flex h-screen">
+      <Sidenav />
+      <div className="flex-1 p-4 overflow-auto lg:ml-6">
+        <Routes>
+          <Route path="/home/*" element={<TableBar />} />
+          <Route path="/distribusi/*" element={<TableDistribusi />} />
+          {/* Inventory */}
+          <Route path="AddBarang" element={<AddBarang />} />
+          <Route path="CreateClient" element={<CreateClient />} />
+          <Route path="EditBarang/:idBarang" element={<EditBarang />} />
+          {/* Distribusi */}
+          <Route path="AddDistribusi" element={<AddDistribusi />} />
+          <Route path="AddSekolah" element={<AddSekolah />} />
+          <Route path="AddStok/:KodeStok" element={<AddStok />} />
+          <Route path="DetailDis/:KodeStok" element={<DetailDis />} />
+          <Route path="UbahStatusDistribusi/:KodeStok" element={<UbahStatusDistribusi />} />
+        </Routes>
       </div>
-    </Router>
+    </div>
   );
 }
 
