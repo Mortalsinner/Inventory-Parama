@@ -3,64 +3,182 @@ import { Link, useParams } from "react-router-dom";
 import { supabase } from '../CreateClient';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import Swal from 'sweetalert2';
 
 const DetailDis = () => {
   const { KodeStok } = useParams(); // diasumsikan ini adalah idDetailDistribusi
   const [distribusi, setDistribusi] = useState(null);
   const [stokBarang, setStokBarang] = useState([]);
+  const [missingItems, setMissingItems] = useState([]);
   const [barangMap, setBarangMap] = useState({});
 
+  const fetchData = async () => {
+    // Ambil data distribusi
+    const { data: distribusiData, error: distribusiError } = await supabase
+      .from('Distribusi_Barang')
+      .select('*')
+      .eq('idDetailDistribusi', KodeStok)
+      .single();
+    if (!distribusiError) setDistribusi(distribusiData);
+
+    // Ambil semua barang untuk mapping namaBarang
+    const { data: barangData, error: barangError } = await supabase
+      .from('Barang')
+      .select('idBarang, namaBarang, fotoBarang, JumlahBarang');
+    if (!barangError) {
+      const map = {};
+      barangData.forEach(b => { map[b.idBarang] = b; });
+      setBarangMap(map);
+    }
+
+    // Ambil stok barang berdasarkan idDetailDistribusi
+    const { data: stokData, error: stokError } = await supabase
+      .from('Stok_Barang')
+      .select('*')
+      .eq('idDetailDistribusi', KodeStok);
+
+    if (!stokError) {
+      // Add publicUrl to each stok item
+      const enhancedStok = stokData.map(item => {
+        const barang = barangData ? barangData.find(b => b.idBarang === item.idBarang) : null;
+        let publicUrl = null;
+
+        if (barang && barang.fotoBarang) {
+          const { data } = supabase.storage
+            .from('fotobarang')
+            .getPublicUrl(barang.fotoBarang);
+          publicUrl = data.publicUrl;
+        }
+
+        return { ...item, publicUrl };
+      });
+      setStokBarang(enhancedStok);
+    }
+
+    // Ambil data barang hilang
+    const { data: missingData, error: missingError } = await supabase
+      .from('Barang_Hilang')
+      .select('*')
+      .eq('idDetailDistribusi', KodeStok);
+
+    if (!missingError) {
+      setMissingItems(missingData);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      // Ambil data distribusi
-      const { data: distribusiData, error: distribusiError } = await supabase
-        .from('Distribusi_Barang')
-        .select('*')
-        .eq('idDetailDistribusi', KodeStok)
-        .single();
-      if (!distribusiError) setDistribusi(distribusiData);
-
-      // Ambil semua barang untuk mapping namaBarang
-      const { data: barangData, error: barangError } = await supabase
-        .from('Barang')
-        .select('idBarang, namaBarang, fotoBarang');
-      if (!barangError) {
-        const map = {};
-        barangData.forEach(b => { map[b.idBarang] = b; });
-        setBarangMap(map);
-      }
-
-      // Ambil stok barang berdasarkan idDetailDistribusi
-      const { data: stokData, error: stokError } = await supabase
-        .from('Stok_Barang')
-        .select('*')
-        .eq('idDetailDistribusi', KodeStok);
-
-      if (!stokError) {
-        // Add publicUrl to each stok item
-        const enhancedStok = stokData.map(item => {
-          // Find corresponding barang in the already fetched barangData
-          // We can use the map we just built or find it in the array
-          // Since barangData might not be in scope if I use const map, I should reuse barangData if possible.
-          // Actually barangData is in scope of this function.
-
-          const barang = barangData ? barangData.find(b => b.idBarang === item.idBarang) : null;
-          let publicUrl = null;
-
-          if (barang && barang.fotoBarang) {
-            const { data } = supabase.storage
-              .from('fotobarang')
-              .getPublicUrl(barang.fotoBarang);
-            publicUrl = data.publicUrl;
-          }
-
-          return { ...item, publicUrl };
-        });
-        setStokBarang(enhancedStok);
-      }
-    };
     fetchData();
   }, [KodeStok]);
+
+  const handleReportMissing = async (item) => {
+    const barangName = barangMap[item.idBarang]?.namaBarang || 'barang';
+    const beforeQty = item.qtyBarang;
+
+    const { value: formValues } = await Swal.fire({
+      title: 'Lapor Barang Hilang',
+      html: `
+        <div class="text-left space-y-4 p-2">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+            <span class="text-[10px] font-black uppercase text-slate-400">Nama Barang</span>
+            <span class="text-sm font-bold text-slate-700">${barangName}</span>
+          </div>
+          <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+            <span class="text-[10px] font-black uppercase text-slate-400">Jumlah Sebelum</span>
+            <span class="text-sm font-black text-indigo-600">${beforeQty} Unit</span>
+          </div>
+          <div class="py-2">
+            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Jumlah Hilang</label>
+            <input id="swal-input-missing" type="number" class="swal2-input !m-0 !w-full" placeholder="Ketik jumlah..." min="1" max="${beforeQty}">
+          </div>
+          <div class="py-2">
+            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2">Alasan Kehilangan</label>
+            <textarea id="swal-input-reason" class="swal2-textarea !m-0 !w-full !h-24" placeholder="Masukkan alasan..."></textarea>
+          </div>
+          <div id="after-summary" class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 transition-all">
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] font-black uppercase text-indigo-400">Total Hilang (Record)</span>
+              <span id="after-qty" class="text-sm font-black text-indigo-600">0 Unit</span>
+            </div>
+          </div>
+        </div>
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Laporkan',
+      cancelButtonText: 'Batal',
+      didOpen: () => {
+        const input = document.getElementById('swal-input-missing');
+        const afterQtySpan = document.getElementById('after-qty');
+        const summaryBox = document.getElementById('after-summary');
+
+        input.addEventListener('input', (e) => {
+          const missingValue = parseInt(e.target.value) || 0;
+          const afterValue = beforeQty - missingValue;
+
+          if (missingValue > 0 && missingValue <= beforeQty) {
+            afterQtySpan.textContent = `${missingValue} Unit`;
+            afterQtySpan.className = 'text-sm font-black text-rose-600';
+            summaryBox.className = 'bg-rose-50 p-4 rounded-2xl border border-rose-100 transition-all opacity-100';
+          } else {
+            afterQtySpan.textContent = `0 Unit`;
+            afterQtySpan.className = 'text-sm font-black text-slate-400';
+            summaryBox.className = 'bg-slate-50 p-4 rounded-2xl border border-slate-100 transition-all opacity-50';
+          }
+        });
+      },
+      preConfirm: () => {
+        const missingQty = parseInt(document.getElementById('swal-input-missing').value);
+        const reason = document.getElementById('swal-input-reason').value;
+
+        if (!missingQty || missingQty <= 0) {
+          Swal.showValidationMessage('Jumlah harus lebih dari 0!');
+          return false;
+        }
+        if (missingQty > beforeQty) {
+          Swal.showValidationMessage(`Jumlah hilang tidak boleh melebihi ${beforeQty}!`);
+          return false;
+        }
+        if (!reason) {
+          Swal.showValidationMessage('Alasan kehilangan wajib diisi!');
+          return false;
+        }
+        return { missingQty, reason };
+      }
+    });
+
+    if (formValues) {
+      try {
+        const { missingQty: qtyToSubtract, reason } = formValues;
+
+        // 1. Record to Barang_Hilang table
+        const { error: insertError } = await supabase
+          .from('Barang_Hilang')
+          .insert([{
+            idBarang: item.idBarang,
+            idDetailDistribusi: parseInt(KodeStok),
+            jumlahHilang: qtyToSubtract,
+            alasan: reason,
+            pic: item.pic || '-',
+            created_at: new Date().toISOString()
+          }]);
+
+        if (insertError) throw insertError;
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: `Laporan dicatat sebagai record. Stok distribusi tetap sesuai data awal.`,
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        fetchData();
+      } catch (error) {
+        console.error('Error reporting missing item:', error);
+        Swal.fire('Error', 'Gagal melaporkan barang hilang: ' + error.message, 'error');
+      }
+    }
+  };
 
 
 
@@ -101,8 +219,12 @@ const DetailDis = () => {
       if (item.publicUrl) {
         imageBase64 = await getBase64FromUrl(item.publicUrl);
       }
+      const missingQty = missingItems
+        .filter(mi => mi.idBarang === item.idBarang && mi.pic === item.pic)
+        .reduce((sum, mi) => sum + mi.jumlahHilang, 0);
+
       return {
-        row: ['', barangMap[item.idBarang]?.namaBarang || '-', item.qtyBarang],
+        row: ['', barangMap[item.idBarang]?.namaBarang || '-', item.qtyBarang, missingQty],
         image: imageBase64
       };
     });
@@ -112,7 +234,7 @@ const DetailDis = () => {
     const tableImages = results.map(r => r.image);
 
     autoTable(doc, {
-      head: [["Gambar", "Nama Barang", "Qty"]],
+      head: [["Gambar", "Nama Barang", "Qty", "Barang Hilang"]],
       body: tableBody,
       startY: 56, // Adjusted startY to accommodate PIC line
       styles: {
@@ -273,6 +395,8 @@ const DetailDis = () => {
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Visual</th>
                   <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Informasi Aset</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Jumlah</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Barang Hilang</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -313,11 +437,29 @@ const DetailDis = () => {
                           {item.qtyBarang}
                         </span>
                       </td>
+                      <td className="px-8 py-6 text-center">
+                        <span className={`inline-flex items-center justify-center min-w-[3rem] h-12 px-4 rounded-2xl text-sm font-black border transition-all ${missingItems.filter(mi => mi.idBarang === item.idBarang && mi.pic === item.pic).length > 0
+                          ? 'bg-rose-50 text-rose-600 border-rose-100 shadow-sm'
+                          : 'bg-slate-50 text-slate-300 border-slate-100'
+                          }`}>
+                          {missingItems
+                            .filter(mi => mi.idBarang === item.idBarang && mi.pic === item.pic)
+                            .reduce((sum, mi) => sum + mi.jumlahHilang, 0)}
+                        </span>
+                      </td>
+                      <td className="px-8 py-6 text-right">
+                        <button
+                          onClick={() => handleReportMissing(item)}
+                          className="px-4 py-2 bg-rose-50 text-rose-600 rounded-xl text-[10px] font-black tracking-widest uppercase hover:bg-rose-500 hover:text-white transition-all active:scale-95 border border-rose-100 shadow-sm"
+                        >
+                          Lapor Hilang
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="p-24 text-center">
+                    <td colSpan="4" className="p-24 text-center">
                       <div className="flex flex-col items-center gap-4 text-slate-300">
                         <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-2">
                           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
@@ -331,6 +473,66 @@ const DetailDis = () => {
             </table>
           </div>
         </div>
+
+        {/* Missing Items Section */}
+        {missingItems.length > 0 && (
+          <div className="mt-12 bg-white rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-rose-100 overflow-hidden">
+            <div className="p-8 border-b border-rose-50 bg-rose-50/20 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-6 bg-rose-500 rounded-full" />
+                <h3 className="font-black text-rose-800 text-sm tracking-widest uppercase">Barang Dilaporkan Hilang</h3>
+              </div>
+              <span className="text-[10px] font-black px-3 py-1 bg-rose-100 text-rose-600 rounded-full border border-rose-200">
+                {missingItems.length} LAPORAN
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead className="bg-rose-50/30 text-rose-400">
+                  <tr className="border-b border-rose-50">
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Nama Barang</th>
+                    <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Jumlah</th>
+                    <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Alasan</th>
+                    <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">PIC</th>
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-right">Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-rose-50">
+                  {missingItems.map((item, idx) => (
+                    <tr key={idx} className="hover:bg-rose-50/50 transition-all duration-300">
+                      <td className="px-8 py-6">
+                        <div className="font-bold text-slate-800 tracking-tight">
+                          {barangMap[item.idBarang]?.namaBarang || '-'}
+                        </div>
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">ID: {item.idBarang}</div>
+                      </td>
+                      <td className="px-6 py-6 text-center">
+                        <span className="inline-flex items-center justify-center px-4 py-1 rounded-xl bg-rose-50 text-rose-600 text-xs font-black border border-rose-100">
+                          {item.jumlahHilang} Unit
+                        </span>
+                      </td>
+                      <td className="px-6 py-6">
+                        <div className="text-sm font-medium text-slate-600 max-w-xs">{item.alasan || '-'}</div>
+                      </td>
+                      <td className="px-6 py-6">
+                        <div className="text-sm font-bold text-slate-700">{item.pic || '-'}</div>
+                      </td>
+                      <td className="px-8 py-6 text-right">
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                          {new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </div>
+                        <div className="text-[9px] font-bold text-slate-400 mt-1 uppercase">
+                          {new Date(item.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
 
